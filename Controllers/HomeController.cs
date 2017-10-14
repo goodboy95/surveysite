@@ -18,6 +18,8 @@ namespace web.Controllers
             ViewBag.CurIP = new HttpParser(HttpContext).GetIPAddr();
             return View();
         }
+        public IActionResult CreateSurvey() => View();
+        public IActionResult Backview() => View();
         public IActionResult Logout()
         {
             var domain = new HttpParser(HttpContext).GetDomain();

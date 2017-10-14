@@ -1,0 +1,36 @@
+<link rel="stylesheet" href="~/css/createsurvey.css" />
+<script src="~/js/createsurvey.js"></script>
+<div id="questionBox">
+    <div id="q1" class="layui-form">
+        <div class="layui-form-item">
+            <label class="layui-form-label">问题名称：</label>
+            <div class="layui-input-block">
+                <input type="text" id="quesName" placeholder="请输入问题名称" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">答案类型：</label>
+            <div class="layui-input-block">
+                <select name="city" onclick="">
+                    <option value="">请选择</option>
+                    <option value="0">单选</option>
+                    <option value="1">多选</option>
+                    <option value="2">数字</option>
+                    <option value="3">文本</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item" id="optionInput" hidden>
+            <label class="layui-form-label">选项填写：</label>
+            <div class="layui-input-block" id="choices">
+                <div id="c1">
+                    <input type="text" name="title" placeholder="请输入" autocomplete="off" class="layui-input">
+                    <button id="removeChoice">RemoveChoice</button>
+                </div>
+                <button id="addChoice">addChoice</button>
+            </div>
+        </div>
+    </div>
+</div>
+<button id="addQues">增加问题</button>
+<button class="layui-btn" id="submit">储存问卷</button>
