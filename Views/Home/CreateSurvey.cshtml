@@ -11,7 +11,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">答案类型：</label>
             <div class="layui-input-block">
-                <select name="city" id="ct" onclick="ShowChoiceBox(this)">
+                <select name="city" id="ct" onclick="ShowChoiceBox(this)" lay-ignore>
                     <option value="">请选择</option>
                     <option value="0">文本</option>
                     <option value="1">数字</option>
@@ -30,6 +30,7 @@
                 <button id="addChoice">addChoice</button>
             </div>
         </div>
+        <button onclick="RemoveQues(this)"> 删除问题</button>
     </div>
 </div>
 <button id="addQues">增加问题</button>
