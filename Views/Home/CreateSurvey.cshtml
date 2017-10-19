@@ -3,6 +3,9 @@
 <div id="questionBox">
     <div id="q1" class="layui-form">
         <div class="layui-form-item">
+            <label class="layui-form-label" id="title">问题1：</label>
+        </div>
+        <div class="layui-form-item">
             <label class="layui-form-label">问题名称：</label>
             <div class="layui-input-block">
                 <input type="text" id="quesName" placeholder="请输入问题名称" autocomplete="off" class="layui-input">
@@ -11,7 +14,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">答案类型：</label>
             <div class="layui-input-block">
-                <select name="city" id="ct" onclick="ShowChoiceBox(this)" lay-ignore>
+                <select name="answerType" id="answerType" onclick="ShowChoiceBox(this)">
                     <option value="">请选择</option>
                     <option value="0">文本</option>
                     <option value="1">数字</option>
@@ -20,18 +23,18 @@
                 </select>
             </div>
         </div>
-        <div class="layui-form-item" id="optionInput" hidden>
+        <div class="layui-form-item" id="optionInput">
             <label class="layui-form-label">选项填写：</label>
-            <div class="layui-input-block" id="choices">
-                <div id="c1">
+            <div class="layui-input-block" id="options">
+                <div id="o1">
                     <input type="text" name="title" placeholder="请输入" autocomplete="off" class="layui-input">
-                    <button id="removeChoice">RemoveChoice</button>
                 </div>
-                <button id="addChoice">addChoice</button>
+                <button onclick="RemoveOption(this)">removeOption</button>
+                <button onclick="AddOption(this)">addOption</button>
             </div>
         </div>
-        <button onclick="RemoveQues(this)"> 删除问题</button>
     </div>
 </div>
 <button id="addQues">增加问题</button>
+<button id="removeQues"> 删除问题</button>
 <button class="layui-btn" id="submit">储存问卷</button>
