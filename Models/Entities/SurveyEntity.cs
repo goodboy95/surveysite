@@ -34,11 +34,7 @@ namespace Domain.Entity
         public int SurveyID { get; set; }
         public DateTime SurveyCreateTime { get; set; }
         public bool SurveyIsDeleted { get; set; }
-        internal string _surveyBody;
-        public Survey SurveyBody 
-        { 
-            get{ return JsonConvert.DeserializeObject<Survey>(_surveyBody); } 
-            set{ _surveyBody = JsonConvert.SerializeObject(value); } 
-        }
+        public string SurveyName { get; set; }
+        public string SurveyBody { get; set; }
     }
 }

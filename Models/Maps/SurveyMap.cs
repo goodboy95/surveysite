@@ -16,8 +16,9 @@ namespace Domain.Mapping
             entity.Property(p => p.SurveyID).HasColumnName("survey_id");
             entity.Property(p => p.SurveyCreateTime).HasColumnName("survey_create_time");
             entity.Property(p => p.SurveyIsDeleted).HasColumnName("survey_is_deleted");
-            entity.Property(p => p._surveyBody).HasColumnName("survey_body").IsRequired();
-            entity.Ignore(p => p.SurveyBody);
+            entity.Property(p => p.SurveyName).HasColumnName("survey_name").HasColumnType("varchar(80)").IsRequired();
+            entity.Property(p => p.SurveyBody).HasColumnName("survey_body").IsRequired();
+            //entity.Ignore(p => p.SurveyBody);
         }
     }
 }

@@ -1,70 +1,70 @@
-var questionList = new Array();
-var quesNum = 1;
+var quesNum = 0;
 var optionNum = new Array();
 var quesBody = null;
 var optionBody = null;
+var form = null;
 
-function ShowChoiceBox(opt) {
-    var choice = opt.value;
-    var quesId = $(opt).parents(".layui-form")[0].id;
-    if (choice >= 2) {
-        $(`#${quesId} #optionInput`).show();
-    }
-    else {
-        $(`#${quesId} #optionInput`).hide();
-    }
-}
-
-function AddOption(opt) {
-    var optJq = $(opt);
-    var quesId = parseInt(optJq.parents(".layui-form").attr("id").substring(1)) - 1;
+function AddOption(optBox) {
+    var quesBody = document.getElementById("q0").cloneNode(true);
+    var optionJq = $(quesBody).find("#o1");
+    var optBoxJq = $(optBox);
+    var quesStrId = optBoxJq.parents(".layui-form").attr("id");
+    var quesId = parseInt(optBoxJq.parents(".layui-form").attr("id").substring(1)) - 1;
     optionNum[quesId]++;
-    optJq.siblings("#options").append(`                <div id=o${optionNum[quesId]}>
-                    <input type="text" placeholder="请输入" autocomplete="off" class="layui-input">
-                    <input type="text" placeholder="关联题号" autocomplete="off" class="layui-input">
-                </div>`);
-}
+    optionJq.attr("id", `o${optionNum[quesId]}`);
+    optBoxJq.siblings("#options").append(optionJq);
+};
 
-function RemoveOption(opt) {
-    var optJq = $(opt);
-    var quesStrId = optJq.parents(".layui-form").attr("id");
+function RemoveOption(optBox) {
+    var optBoxJq = $(optBox);
+    var quesStrId = optBoxJq.parents(".layui-form").attr("id");
     var quesId = parseInt(quesStrId.substring(1)) - 1;
     if (optionNum[quesId] <= 0) return;
     $(`#${quesStrId} #o${optionNum[quesId]}`).remove();
     optionNum[quesId]--;
-}
+};
 
 window.onload = function(){
     optionNum[0] = 1;
     //quesBody = document.getElementById("q1").cloneNode(true);
     //optionBody = document.getElementById("o1").cloneNode(true);
     layui.use("form", function(){
-        var form = layui.form;
-    });
-
-    $("#answerType").click(function(){
-        console.log("dsdsds");
+        form = layui.form;
+        form.on("select(answerType)", function(data) {
+            var choice = data.value;
+            var quesId = $(data.elem).parents(".layui-form")[0].id;
+            if (choice >= 2) {
+                $(`#${quesId} #optionInput`).show();
+            }
+            else {
+                $(`#${quesId} #optionInput`).hide();
+            }
+        });
     });
     
     document.getElementById("addQues").onclick = function(){
         quesNum++;
         optionNum[quesNum] = 1;
-        var quesBody = document.getElementById("q1").cloneNode(true);
+        var quesBody = document.getElementById("q0").cloneNode(true);
         quesBody.id = `q${quesNum}`;
         quesBodyJq = $(quesBody);
         quesBodyJq.find("#title").html(`问题${quesNum}:`);
         quesBody = quesBodyJq[0];
-        document.getElementById("questionBox").appendChild(quesBody);
-    }
+        $("#questionBox").append(quesBodyJq);
+        quesBodyJq.show();
+        form.render('select');
+    };
 
     document.getElementById("removeQues").onclick = function(){
-        //var thisQues = document.getElementById(quesId);
-        //document.getElementById("questionBox").remove(thisQues);
-        $(`#q${quesNum}`).remove();
-        quesNum--;
-    }
+        if (quesNum >= 1) {
+            $(`#q${quesNum}`).remove();
+            quesNum--;
+        }
+    };
 
     document.getElementById("submit").onclick = function(){
+        var questionList = new Array();
+        var surveyTitle = $("#surveyName").val();
         for (var i = 1; i <= quesNum; i++)
         {
             var ques = new Object();
@@ -75,15 +75,22 @@ window.onload = function(){
                 ques.options = new Array();
                 for (var j = 1; j <= optionNum[i - 1]; j++) {
                     var option = new Object();
-                    console.log(`#o${j}`);
                     optionJq = quesObj.find(`#o${j}`);
                     option.text = optionJq.find("#optionText").val();
                     option.rel = optionJq.find("#relatedQues").val();
+                    if (isNaN(parseInt(option.rel))) {
+                        alert("Relating-question number must be a number!");
+                        return;
+                    }
                     ques.options.push(option);
                 }
                 questionList.push(ques);
             }
         }
-        console.log(questionList);
-    }
+        $.post("/homeApi/create_survey", {surveyName: surveyTitle, surveyJson: JSON.stringify(questionList)}, function(resp) {
+            console.log(resp);
+            alert("successful!");
+            window.location.href = "/";
+        });
+    };
 };

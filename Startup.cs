@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Dao;
+using Utils;
 using Microsoft.EntityFrameworkCore;
 
 namespace simpleproj
@@ -28,7 +29,7 @@ namespace simpleproj
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, DwDbContext c)
         {
             if (env.IsDevelopment())
             {
@@ -40,7 +41,7 @@ namespace simpleproj
             }
 
             app.UseStaticFiles();
-
+            Initialize.DbInit(c);
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
