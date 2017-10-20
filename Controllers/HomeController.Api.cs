@@ -19,15 +19,26 @@ namespace web.Api.Controllers
         {
         }
         [HttpPost("create_survey")]
-        public ActionResult CreateSurvey(string surveyJson)
+        public ActionResult CreateSurvey(string surveyName, string surveyJson)
         {
-            var surveyJarr = JArray.Parse(surveyJson);
             var surveyObj = new SurveyEntity();
             surveyObj.SurveyBody = surveyJson;
-            surveyObj.SurveyName = "test";
+            surveyObj.SurveyName = surveyName;
             dbc.Survey.Add(surveyObj);
             dbc.SaveChanges();
-            return JsonReturn.ReturnSuccess(surveyJarr);
+            return JsonReturn.ReturnSuccess();
+        }
+        [HttpPost("save_answer")]
+        public ActionResult SaveAnswer(int surveyID, string answer)
+        {
+            var answerObj = new AnswerEntity();
+            answerObj.AnswerCreator = "";
+            answerObj.AnswerIP = "";
+            answerObj.SurveyID = surveyID;
+            answerObj.AnswerBody = answer;
+            dbc.Answer.Add(answerObj);
+            dbc.SaveChanges();
+            return JsonReturn.ReturnSuccess();
         }
         [HttpGet("survey_ques")]
         public ActionResult GetSurveyQues(int surveyID)

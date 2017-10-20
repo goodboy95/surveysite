@@ -14,7 +14,7 @@ namespace Domain.Entity
         public bool AnswerIsDeleted { get; set; }
         public string AnswerCreator { get; set; }
         public string AnswerIP { get; set; }
-        public string SurveyID { get; set; }
+        public int SurveyID { get; set; }
         public string AnswerBody { get; set; }
     }
 }
