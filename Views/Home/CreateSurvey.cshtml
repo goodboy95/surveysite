@@ -8,7 +8,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">问题名称：</label>
             <div class="layui-input-block">
-                <input type="text" id="quesName" placeholder="请输入问题名称" autocomplete="off" class="layui-input">
+                <input type="text" id="quesName" placeholder="请输入问题名称" autocomplete="off" class="layui-input"  >
             </div>
         </div>
         <div class="layui-form-item">
@@ -27,11 +27,12 @@
             <label class="layui-form-label">选项填写：</label>
             <div class="layui-input-block" id="options">
                 <div id="o1">
-                    <input type="text" name="title" placeholder="请输入" autocomplete="off" class="layui-input">
+                    <input type="text" id="optionText" placeholder="请输入" autocomplete="off" class="layui-input" layui-ignore>
+                    <input type="text" id="relatedQues" placeholder="关联题号" autocomplete="off" class="layui-input" layui-ignore>
                 </div>
-                <button onclick="RemoveOption(this)">removeOption</button>
-                <button onclick="AddOption(this)">addOption</button>
             </div>
+            <button onclick="RemoveOption(this)">removeOption</button>
+            <button onclick="AddOption(this)">addOption</button>
         </div>
     </div>
 </div>

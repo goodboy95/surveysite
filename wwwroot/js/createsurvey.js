@@ -1,6 +1,8 @@
 var questionList = new Array();
 var quesNum = 1;
 var optionNum = new Array();
+var quesBody = null;
+var optionBody = null;
 
 function ShowChoiceBox(opt) {
     var choice = opt.value;
@@ -15,11 +17,27 @@ function ShowChoiceBox(opt) {
 
 function AddOption(opt) {
     var optJq = $(opt);
-    var id = this.id;
+    var quesId = parseInt(optJq.parents(".layui-form").attr("id").substring(1)) - 1;
+    optionNum[quesId]++;
+    optJq.siblings("#options").append(`                <div id=o${optionNum[quesId]}>
+                    <input type="text" placeholder="请输入" autocomplete="off" class="layui-input">
+                    <input type="text" placeholder="关联题号" autocomplete="off" class="layui-input">
+                </div>`);
+}
+
+function RemoveOption(opt) {
+    var optJq = $(opt);
+    var quesStrId = optJq.parents(".layui-form").attr("id");
+    var quesId = parseInt(quesStrId.substring(1)) - 1;
+    if (optionNum[quesId] <= 0) return;
+    $(`#${quesStrId} #o${optionNum[quesId]}`).remove();
+    optionNum[quesId]--;
 }
 
 window.onload = function(){
     optionNum[0] = 1;
+    //quesBody = document.getElementById("q1").cloneNode(true);
+    //optionBody = document.getElementById("o1").cloneNode(true);
     layui.use("form", function(){
         var form = layui.form;
     });
@@ -54,9 +72,18 @@ window.onload = function(){
             if (quesObj != undefined) {
                 ques.quesName = quesObj.find("#quesName").val();
                 ques.answerType = quesObj.find("#answerType").val();
+                ques.options = new Array();
+                for (var j = 1; j <= optionNum[i - 1]; j++) {
+                    var option = new Object();
+                    console.log(`#o${j}`);
+                    optionJq = quesObj.find(`#o${j}`);
+                    option.text = optionJq.find("#optionText").val();
+                    option.rel = optionJq.find("#relatedQues").val();
+                    ques.options.push(option);
+                }
                 questionList.push(ques);
             }
-            console.log(ques);
         }
+        console.log(questionList);
     }
 };
