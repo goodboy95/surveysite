@@ -18,33 +18,56 @@ namespace web.Api.Controllers
         public HomeApiController(DwDbContext dbc, ILoggerFactory logFac, IServiceProvider svp) : base(dbc, logFac, svp)
         {
         }
-        [HttpPost("create_survey")]
-        public ActionResult CreateSurvey(string surveyName, string surveyJson)
+        [HttpPost("questionnaire")]
+        public ActionResult SaveQuestionnire(string quesName, string quesJson)
         {
             var surveyObj = new SurveyEntity();
-            surveyObj.SurveyBody = surveyJson;
-            surveyObj.SurveyName = surveyName;
+            surveyObj.SurveyBody = quesJson;
+            surveyObj.SurveyName = quesName;
             dbc.Survey.Add(surveyObj);
             dbc.SaveChanges();
             return JsonReturn.ReturnSuccess();
         }
-        [HttpPost("save_answer")]
+        [HttpPost("answer")]
         public ActionResult SaveAnswer(int surveyID, string answer)
         {
             var answerObj = new AnswerEntity();
-            answerObj.AnswerCreator = "";
-            answerObj.AnswerIP = "";
+            answerObj.AnswerCreator = Request.Cookies["username"];  //暂时没有用户名
+            answerObj.AnswerIP = new HttpParser(HttpContext).GetIPAddr();
             answerObj.SurveyID = surveyID;
             answerObj.AnswerBody = answer;
             dbc.Answer.Add(answerObj);
             dbc.SaveChanges();
             return JsonReturn.ReturnSuccess();
         }
-        [HttpGet("survey_ques")]
-        public ActionResult GetSurveyQues(int surveyID)
+        [HttpGet("questionnaire")]
+        public ActionResult GetQuestionnire(int surveyID)
         {
             var surveyBody = dbc.Survey.Find(surveyID).SurveyBody;
-            return JsonReturn.ReturnSuccess(surveyBody);
+            var surveyJArr = JArray.Parse(surveyBody);
+            return JsonReturn.ReturnSuccess(surveyJArr);
+        }
+        [HttpGet("answer")]
+        public ActionResult GetAnswer(int answerID)
+        {
+            var answerEntity = dbc.Answer.Find(answerID);
+            var relSurveyID = answerEntity.SurveyID;
+            var answerBody = answerEntity.AnswerBody;
+            var surveyBody = dbc.Survey.Find(relSurveyID).SurveyBody;
+            var result = new JObject(){ ["surveyBody"] = surveyBody, ["answerBody"] = answerBody };
+            return JsonReturn.ReturnSuccess(result);
+        }
+        [HttpGet("questionnaire_list")]
+        public ActionResult GetQuestionnaireList()
+        {
+            var surveyList = from al in dbc.Survey where al.SurveyIsDeleted == false select al;
+            return JsonReturn.ReturnSuccess(surveyList);
+        }
+        [HttpGet("answer_list")]
+        public ActionResult GetAnswerList()
+        {
+            var answerList = from al in dbc.Answer where al.AnswerIsDeleted == false select al;
+            return JsonReturn.ReturnSuccess(answerList);
         }
     }
 }

@@ -1,0 +1,44 @@
+<link rel="stylesheet" href="~/css/create_questionnaire.css" />
+<script src="~/js/create_questionnaire.js"></script>
+<div hidden>
+    <div id="q0" class="layui-form">
+        <div class="layui-form-item">
+            <label class="layui-form-label" id="title">Ques.1：</label>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">Question title：</label>
+            <div class="layui-input-block">
+                <input type="text" id="quesName" placeholder="Enter the title of this question here" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">Question type：</label>
+            <div class="layui-input-block">
+                <select name="answerType" id="answerType" lay-filter="answerType">
+                    <option value="">请选择</option>
+                    <option value="0" disabled>Text answer(temporarily Unavaliable)</option>
+                    <option value="2">Multiple choice</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item" id="optionInput" hidden>
+            <label class="layui-form-label">选项填写：</label>
+            <div class="layui-input-block" id="options">
+                <div id="o1">
+                    <input type="text" id="optionText" placeholder="请输入" autocomplete="off" class="layui-input">
+                    <input type="text" id="relatedQues" placeholder="关联题号" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <button class="layui-btn" onclick="RemoveOption(this)">removeOption</button>
+            <button class="layui-btn" onclick="AddOption(this)">addOption</button>
+        </div>
+    </div>
+</div>
+<div id="questionBox">    
+    <div class="layui-input-block">
+        <input type="text" id="surveyName" placeholder="Enter the title of this questionnaire here" autocomplete="off" class="layui-input">
+    </div>
+</div>
+<button class="layui-btn" id="addQues">Add a question</button>
+<button class="layui-btn" id="removeQues">Remove a question</button>
+<button class="layui-btn" id="submit">Save questionnaire</button>

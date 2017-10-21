@@ -1,10 +1,36 @@
 <link rel="stylesheet" href="~/css/survey.css" />
 <script src="~/js/survey.js"></script>
+<div hidden>
+    <input type="radio" id="optAnswer" name="answer" value="" title="">
+    <input id="surveyID" value="@(ViewBag.surveyID)" hidden>
+</div>
+
 <div>
-    <div id="optionQues" hidden>
+    <div id="optionQues" class="layui-form" hidden>
+        <div class="layui-form-item">
+            <label class="layui-form-label" id="optQuesTitle">问题名称：</label>
+            <div class="layui-input-block" id="optionArea">
 
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-filter="optSubmit" lay-submit lay-filter="optionSubmit">立即提交</button>
+            </div>
+        </div>
     </div>
-    <div id="textQues" hidden>
 
+    <div id="textQues" class="layui-form" hidden>
+        <div class="layui-form-item">
+            <label class="layui-form-label" id="textQuesTitle">问题名称：</label>
+            <div class="layui-input-block">
+                <textarea id="answerArea" name="answer" required lay-verify="required" placeholder="请输入" class="layui-textarea"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-filter="textSubmit" lay-submit lay-filter="textSubmit">立即提交</button>
+            </div>
+        </div>
     </div>
 </div>

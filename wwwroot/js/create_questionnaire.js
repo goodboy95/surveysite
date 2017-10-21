@@ -26,8 +26,6 @@ function RemoveOption(optBox) {
 
 window.onload = function(){
     optionNum[0] = 1;
-    //quesBody = document.getElementById("q1").cloneNode(true);
-    //optionBody = document.getElementById("o1").cloneNode(true);
     layui.use("form", function(){
         form = layui.form;
         form.on("select(answerType)", function(data) {
@@ -49,9 +47,7 @@ window.onload = function(){
         quesBody.id = `q${quesNum}`;
         quesBodyJq = $(quesBody);
         quesBodyJq.find("#title").html(`问题${quesNum}:`);
-        quesBody = quesBodyJq[0];
         $("#questionBox").append(quesBodyJq);
-        quesBodyJq.show();
         form.render('select');
     };
 
@@ -64,7 +60,7 @@ window.onload = function(){
 
     document.getElementById("submit").onclick = function(){
         var questionList = new Array();
-        var surveyTitle = $("#surveyName").val();
+        var questionnaireTitle = $("#surveyName").val();
         for (var i = 1; i <= quesNum; i++)
         {
             var ques = new Object();
@@ -87,9 +83,8 @@ window.onload = function(){
                 questionList.push(ques);
             }
         }
-        $.post("/homeApi/create_survey", {surveyName: surveyTitle, surveyJson: JSON.stringify(questionList)}, function(resp) {
-            console.log(resp);
-            alert("successful!");
+        console.log(questionList);
+        $.post("/homeApi/questionnaire", {quesName: questionnaireTitle, quesJson: JSON.stringify(questionList)}, function(resp, stat) {
             window.location.href = "/";
         });
     };
