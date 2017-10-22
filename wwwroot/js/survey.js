@@ -38,6 +38,8 @@ function OnSubmitClick(surveyID, data) {
 }
 
 function RenderQuestion() {
+    $("#optQuesTitle").empty();
+    $("#textQuesTitle").empty();
     $("#optionArea").empty();
     $("#answerArea").empty();
     var ques = surveyBody[currentQues];
