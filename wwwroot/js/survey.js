@@ -41,9 +41,11 @@ function RenderQuestion() {
     $("#optionArea").empty();
     $("#answerArea").empty();
     var ques = surveyBody[currentQues];
+    var quesName = ques.quesName;
     var optionArr = ques.options;
     if (parseInt(ques.answerType) === 2) {
         $("#optionQues").show();
+        $("#optQuesTitle").append(quesName);
         for (var i = 0; i < optionArr.length; i++) {
             var optionBody = document.getElementById("optAnswer").cloneNode(true);
             optionBody.value = i;
@@ -74,6 +76,7 @@ window.onload = function(){
         });
         $.get("/homeApi/questionnaire", {surveyID: surveyID}, function(resp, stat){
             surveyBody = resp.data;
+            console.log(surveyBody);
             console.log(surveyBody);
             RenderQuestion();
         });

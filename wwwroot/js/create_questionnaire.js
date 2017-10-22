@@ -30,7 +30,7 @@ function AddQuestion() {
     var quesBody = document.getElementById("q0").cloneNode(true);
     quesBody.id = `q${quesNum}`;
     quesBodyJq = $(quesBody);
-    quesBodyJq.find("#title").html(`问题${quesNum}:`);
+    quesBodyJq.find("#title").html(`Question ${quesNum}:`);
     $("#questionBox").append(quesBodyJq);
     form.render('select');
 }
