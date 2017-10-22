@@ -32,6 +32,7 @@ namespace Domain.Entity
             SurveyIsDeleted = false;
         }
         public int SurveyID { get; set; }
+        public int SurveyCreator { get; set; }
         public DateTime SurveyCreateTime { get; set; }
         public bool SurveyIsDeleted { get; set; }
         public string SurveyName { get; set; }

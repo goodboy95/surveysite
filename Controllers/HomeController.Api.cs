@@ -22,8 +22,10 @@ namespace web.Api.Controllers
         public ActionResult SaveQuestionnire(string quesName, string quesJson)
         {
             var surveyObj = new SurveyEntity();
+            int.TryParse(Request.Cookies["id"], out int creator);
             surveyObj.SurveyBody = quesJson;
             surveyObj.SurveyName = quesName;
+            surveyObj.SurveyCreator = creator;
             dbc.Survey.Add(surveyObj);
             dbc.SaveChanges();
             return JsonReturn.ReturnSuccess();
@@ -32,7 +34,8 @@ namespace web.Api.Controllers
         public ActionResult SaveAnswer(int surveyID, string answer)
         {
             var answerObj = new AnswerEntity();
-            answerObj.AnswerCreator = Request.Cookies["username"];  //暂时没有用户名
+            int.TryParse(Request.Cookies["id"], out int creator);  //暂时没有用户名
+            answerObj.AnswerCreator = creator;
             answerObj.AnswerIP = new HttpParser(HttpContext).GetIPAddr();
             answerObj.SurveyID = surveyID;
             answerObj.AnswerBody = answer;

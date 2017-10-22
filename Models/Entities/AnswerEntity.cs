@@ -12,7 +12,7 @@ namespace Domain.Entity
         public int AnswerID { get; set; }
         public DateTime AnswerCreateTime { get; set; }
         public bool AnswerIsDeleted { get; set; }
-        public string AnswerCreator { get; set; }
+        public int AnswerCreator { get; set; }
         public string AnswerIP { get; set; }
         public int SurveyID { get; set; }
         public string AnswerBody { get; set; }

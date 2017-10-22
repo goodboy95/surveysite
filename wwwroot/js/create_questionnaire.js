@@ -24,6 +24,17 @@ function RemoveOption(optBox) {
     optionNum[quesId]--;
 };
 
+function AddQuestion() {
+    quesNum++;
+    optionNum[quesNum] = 1;
+    var quesBody = document.getElementById("q0").cloneNode(true);
+    quesBody.id = `q${quesNum}`;
+    quesBodyJq = $(quesBody);
+    quesBodyJq.find("#title").html(`问题${quesNum}:`);
+    $("#questionBox").append(quesBodyJq);
+    form.render('select');
+}
+
 window.onload = function(){
     optionNum[0] = 1;
     layui.use("form", function(){
@@ -38,18 +49,10 @@ window.onload = function(){
                 $(`#${quesId} #optionInput`).hide();
             }
         });
+        AddQuestion();
     });
-    
-    document.getElementById("addQues").onclick = function(){
-        quesNum++;
-        optionNum[quesNum] = 1;
-        var quesBody = document.getElementById("q0").cloneNode(true);
-        quesBody.id = `q${quesNum}`;
-        quesBodyJq = $(quesBody);
-        quesBodyJq.find("#title").html(`问题${quesNum}:`);
-        $("#questionBox").append(quesBodyJq);
-        form.render('select');
-    };
+
+    document.getElementById("addQues").onclick = AddQuestion;
 
     document.getElementById("removeQues").onclick = function(){
         if (quesNum >= 1) {

@@ -15,7 +15,7 @@ namespace Domain.Mapping
             entity.Property(p => p.AnswerIsDeleted).HasColumnName("answer_is_deleted");
             entity.Property(p => p.AnswerIP).HasColumnName("answer_ip").HasColumnType("varchar(100)").IsRequired();
             entity.Property(p => p.SurveyID).HasColumnName("survey_id").IsRequired();
-            entity.Property(p => p.AnswerCreator).HasColumnName("answer_creator").HasColumnType("varchar(30)");
+            entity.Property(p => p.AnswerCreator).HasColumnName("answer_creator");
             entity.Property(p => p.AnswerBody).HasColumnName("answer_body").IsRequired();
             //entity.Ignore(p => p.AnswerBody);
         }

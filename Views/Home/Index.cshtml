@@ -1,7 +1,24 @@
 <link rel="stylesheet" href="~/css/index.css" />
 <script src="~/js/index.js"></script>
-<button id="create"></button>
+<button id="create">Create a questionnaire</button>
 <input type="text" id="surveyNo" />
 <button id="doSurvey">submit</button>
+<table class="layui-table">
+    <colgroup>
+        <col width="150">
+        <col width="200">
+        <col>
+    </colgroup>
+    <thead>
+        <tr>
+            <th>Ques.ID</th>
+            <th>Ques.Name</th>
+            <th>Ques.Creator(Temporarily not exist)</th>
+        </tr>
+    </thead>
+    <tbody id="quesList">
+        @Html.Raw(ViewBag.QuesList)
+    </tbody>
+</table>
 <a href="/home/createquestionnaire">createsurvey</a>
 <a href="/home/survey/1">doSurvey1</a>
