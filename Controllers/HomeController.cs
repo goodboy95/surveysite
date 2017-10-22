@@ -36,7 +36,6 @@ namespace web.Controllers
             return View();
         }
         public IActionResult Admin() => View();
-        public IActionResult Backview() => View();
         public IActionResult Logout()
         {
             var domain = new HttpParser(HttpContext).GetDomain();

@@ -6,4 +6,7 @@ window.onload = function () {
         var quesID = parseInt(document.getElementById("surveyNo").value);
         window.location.href = `/home/survey/${quesID}`;
     };
+    document.getElementById("adminPage").onclick = function () {
+        window.location.href = "/home/admin";
+    };
 };
