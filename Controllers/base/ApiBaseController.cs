@@ -17,5 +17,9 @@ namespace web.Api.Controllers
         public ApiBaseController(DwDbContext dbc, ILoggerFactory logFac, IServiceProvider svp) : base(dbc, logFac, svp)
         {
         }
+        protected override void LoginFail(ActionExecutingContext context)
+        {
+            context.Result = JsonReturn.ReturnFail(-3, "你没有权限访问此模块！");
+        }
     }
 }

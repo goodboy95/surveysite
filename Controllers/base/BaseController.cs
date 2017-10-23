@@ -26,19 +26,20 @@ namespace web.Controllers
             _log = logFac.CreateLogger("simpleproj");
             //redis = StackRedisHelper.Instance;
         }
-
-
-        public string GetIPAddr()
-        {
-            var ip = HttpContext.Request.Headers["X-Forwarded-For"].FirstOrDefault();
-            if (string.IsNullOrEmpty(ip))
-            {
-                ip = HttpContext.Connection.RemoteIpAddress.ToString();
-            }
-            return ip;
-        }
+        protected virtual void LoginFail(ActionExecutingContext context) { }
         public override void OnActionExecuting(ActionExecutingContext context)
         {
+            long userID = Convert.ToInt64(Request.Cookies["id"]);
+            string token = Request.Cookies["token"];
+            var curUser = (from u in dbc.User where u.UserID == userID select new { u.Token, u.ExpireTime }).FirstOrDefault();
+            string realToken = curUser?.Token;
+            var tokenTime = curUser?.ExpireTime;
+            //if (wsa == null) { wsa = new WebSocketAccessor(context.HttpContext); }
+            //if (wsa.webSocket?.State != WebSocketState.Open) { wsa.SocketOpen(); }
+            if (curUser == null || token == null || realToken == null || token != realToken || tokenTime < DateTime.Now)
+            {
+                LoginFail(context);
+            }
         }
         public override void OnActionExecuted(ActionExecutedContext context)
         {

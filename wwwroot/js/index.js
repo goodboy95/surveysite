@@ -1,6 +1,10 @@
 window.onload = function () {
+    layui.use('element', function () {
+        var element = layui.element;
+    });
+
     document.getElementById("create").onclick = function () {
-        window.location.href = "/home/createquestionnaire";
+        window.location.href = "/survey/createquestionnaire";
     };
     document.getElementById("doSurvey").onclick = function () {
         var quesID = parseInt(document.getElementById("surveyNo").value);

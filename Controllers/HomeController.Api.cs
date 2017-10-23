@@ -1,76 +1,79 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Dao;
-using Utils;
 using Microsoft.AspNetCore.Mvc;
+using Utils;
+using System.Security.Cryptography;
+using Dao;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json.Linq;
+using web.Api.Controllers;
+using Microsoft.AspNetCore.Mvc.Filters;
+using System.Text;
 using Domain.Entity;
+using Microsoft.AspNetCore.Http;
 
-namespace web.Api.Controllers
+// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+
+namespace simpleproj.Controllers
 {
-    [Route("[controller]")]
-    public class HomeApiController : ApiBaseController
+    public class HomeController : ApiBaseController
     {
-        public HomeApiController(DwDbContext dbc, ILoggerFactory logFac, IServiceProvider svp) : base(dbc, logFac, svp)
+        public HomeController(DwDbContext dbc, ILoggerFactory logFac, IServiceProvider svp) : base(dbc, logFac, svp)
         {
         }
-        [HttpPost("questionnaire")]
-        public ActionResult SaveQuestionnire(string quesName, string quesJson)
+        protected override void LoginFail(ActionExecutingContext context)
         {
-            var surveyObj = new SurveyEntity();
-            int.TryParse(Request.Cookies["id"], out int creator);
-            surveyObj.SurveyBody = quesJson;
-            surveyObj.SurveyName = quesName;
-            surveyObj.SurveyCreator = creator;
-            dbc.Survey.Add(surveyObj);
+        }
+        public string HashStr(string src)
+        {
+            var sha2 = SHA256.Create();
+            byte[] hashByte = sha2.ComputeHash(Encoding.Unicode.GetBytes(src));
+            string passHash = "";
+            for (int i = 0; i < hashByte.Length; i++)
+            {
+                passHash += hashByte[i].ToString("x2");
+            }
+            return passHash;
+        }
+        [HttpPut("register")]
+        public JsonReturn Register(string username, string password)
+        {
+            username = HTMLEntity.XSSConvert(username);
+            string salt = HashStr(username + DateTime.Now.ToString());
+            string passHash = HashStr(salt + password + salt + username);
+            string ip = new HttpParser(HttpContext).GetIPAddr();
+            var loginIPDic = new Dictionary<string, bool>();
+            loginIPDic.Add(ip, true);
+            UserEntity u = new UserEntity { Name = username, Pass = passHash, Salt = salt, LoginIP = loginIPDic };
+            dbc.User.Add(u);
             dbc.SaveChanges();
             return JsonReturn.ReturnSuccess();
         }
-        [HttpPost("answer")]
-        public ActionResult SaveAnswer(int surveyID, string answer)
+        [HttpPost("login")]
+        public JsonReturn Login(string username, string password)
         {
-            var answerObj = new AnswerEntity();
-            int.TryParse(Request.Cookies["id"], out int creator);  //暂时没有用户名
-            answerObj.AnswerCreator = creator;
-            answerObj.AnswerIP = new HttpParser(HttpContext).GetIPAddr();
-            answerObj.SurveyID = surveyID;
-            answerObj.AnswerBody = answer;
-            dbc.Answer.Add(answerObj);
-            dbc.SaveChanges();
-            return JsonReturn.ReturnSuccess();
-        }
-        [HttpGet("questionnaire")]
-        public ActionResult GetQuestionnire(int surveyID)
-        {
-            var surveyBody = dbc.Survey.Find(surveyID).SurveyBody;
-            var surveyJArr = JArray.Parse(surveyBody);
-            return JsonReturn.ReturnSuccess(surveyJArr);
-        }
-        [HttpGet("answer")]
-        public ActionResult GetAnswer(int answerID)
-        {
-            var answerEntity = dbc.Answer.Find(answerID);
-            var relSurveyID = answerEntity.SurveyID;
-            var answerBody = answerEntity.AnswerBody;
-            var surveyBody = dbc.Survey.Find(relSurveyID).SurveyBody;
-            var result = new JObject(){ ["surveyBody"] = surveyBody, ["answerBody"] = answerBody };
-            return JsonReturn.ReturnSuccess(result);
-        }
-        [HttpGet("questionnaire_list")]
-        public ActionResult GetQuestionnaireList()
-        {
-            var surveyList = from al in dbc.Survey where al.SurveyIsDeleted == false select al;
-            return JsonReturn.ReturnSuccess(surveyList);
-        }
-        [HttpGet("answer_list")]
-        public ActionResult GetAnswerList()
-        {
-            var answerList = from al in dbc.Answer where al.AnswerIsDeleted == false select al;
-            return JsonReturn.ReturnSuccess(answerList);
+            username = HTMLEntity.XSSConvert(username);
+            var domain = new HttpParser(HttpContext).GetDomain();
+            UserEntity u = (from lu in dbc.User where lu.Name == username select lu).FirstOrDefault();
+            if (u == null) { return JsonReturn.ReturnFail(-1, "该用户不存在！"); }
+            string salt = u.Salt;
+            string passHash = HashStr(salt + password + salt + username);
+            if (u.Pass != passHash) { return JsonReturn.ReturnFail(-2, "密码错误！"); }
+            else
+            {
+                if (u.Token == null)
+                {
+                    string token = HashStr(password + DateTime.Now.ToString() + username);
+                    u.Token = token;
+                    u.ExpireTime = DateTime.Now.AddMonths(1);
+                    dbc.SaveChanges();
+                }
+                Response.Cookies.Append("username", username, new CookieOptions { Domain = domain, Expires = DateTime.Now.AddMonths(1) });
+                Response.Cookies.Append("token", u.Token, new CookieOptions { Domain = domain, Expires = DateTime.Now.AddMonths(1) });
+                Response.Cookies.Append("id", u.UserID.ToString(), new CookieOptions { Domain = domain, Expires = DateTime.Now.AddMonths(1) });
+                return JsonReturn.ReturnSuccess();
+            }
         }
     }
 }

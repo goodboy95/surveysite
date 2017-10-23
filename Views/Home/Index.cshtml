@@ -1,25 +1,54 @@
 <link rel="stylesheet" href="~/css/index.css" />
 <script src="~/js/index.js"></script>
-<button id="create" class="layui-btn">Create a questionnaire</button>
-<br />
-<label>Please input a questionnaire ID to start a survey:</label>
-<input type="text" id="surveyNo" />
-<button id="doSurvey" class="layui-btn">Do a survey</button>
-<button id="adminPage" class="layui-btn">Answer list page</button>
-<table class="layui-table">
-    <colgroup>
-        <col width="150">
-        <col width="200">
-        <col>
-    </colgroup>
-    <thead>
-        <tr>
-            <th>Ques.ID</th>
-            <th>Ques.Name</th>
-            <th>Ques.Creator(Temporarily not exist)</th>
-        </tr>
-    </thead>
-    <tbody id="quesList">
-        @Html.Raw(ViewBag.QuesList)
-    </tbody>
-</table>
+
+<div id="menu" class="layui-header">
+    <ul class="layui-nav right-menu" lay-filter="">
+        <li class="layui-nav-item login-menu"><a href="">Sign In</a></li>
+        <li class="login-menu menu-text">or</li>
+        <li class="layui-nav-item login-menu"><a href="">Sign Up</a></li>
+    </ul>
+</div>
+
+<div id="index-frame">
+    <div id="background">
+        <div id="realpage">
+            <div class="leftside">
+                <p id="notice">Under Construction...</p>
+                <p id="notice">Temporarily unable to sign up on sign on.</p>
+                <button id="create" class="layui-btn">Create a questionnaire</button>
+                <br />
+                <label>Please input a questionnaire ID to start a survey:</label>
+                <input type="text" id="surveyNo" />
+                <button id="doSurvey" class="layui-btn">Do a survey</button>
+                <button id="adminPage" class="layui-btn">Answer list page</button>
+            </div>
+            <div class="login-form">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div hidden>
+    <table class="layui-table">
+        <colgroup>
+            <col width="150">
+            <col width="200">
+            <col>
+        </colgroup>
+        <thead>
+            <tr>
+                <th>Ques.ID</th>
+                <th>Ques.Name</th>
+                <th>Ques.Creator(Temporarily not exist)</th>
+            </tr>
+        </thead>
+        <tbody id="quesList">
+            @Html.Raw(ViewBag.QuesList)
+        </tbody>
+    </table>
+</div>

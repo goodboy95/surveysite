@@ -1,0 +1,50 @@
+
+
+.login-menu{
+    display: inline;
+    margin-right: 20px;
+}
+
+.menu-text {
+    vertical-align: middle;
+}
+
+.right-menu {
+    width: 80%;
+    text-align: right;
+}
+
+#menu {
+    background-color: #393D49;
+}
+
+#notice {
+    font: 50px arial,sans-serif;
+}
+
+.leftside {
+    height: 80%;
+    width: 45%;
+    float: left;
+}
+
+#index-frame {
+    margin-top: 5%;
+    height: 40%;
+    width: 100%;
+    text-align: center;
+    
+}
+
+#realpage {
+    height: 100%;
+    width: 80%;
+    margin: 0 auto;
+    background-image: url(../image/sky.jpg);
+}
+
+.login-form {
+    height: 80%;
+    width: 45%;
+    float: right;
+}

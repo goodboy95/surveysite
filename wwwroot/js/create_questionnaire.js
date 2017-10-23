@@ -87,7 +87,7 @@ window.onload = function(){
             }
         }
         console.log(questionList);
-        $.post("/homeApi/questionnaire", {quesName: questionnaireTitle, quesJson: JSON.stringify(questionList)}, function(resp, stat) {
+        $.post("/surveyApi/questionnaire", {quesName: questionnaireTitle, quesJson: JSON.stringify(questionList)}, function(resp, stat) {
             window.location.href = "/";
         });
     };

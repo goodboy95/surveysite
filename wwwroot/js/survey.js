@@ -28,7 +28,7 @@ function OnSubmitClick(surveyID, data) {
         RenderQuestion();
     }
     else {
-        $.post("/homeApi/answer", {surveyID: surveyID, answer: JSON.stringify(answerArr)}, function(resp, stat){
+        $.post("/surveyApi/answer", {surveyID: surveyID, answer: JSON.stringify(answerArr)}, function(resp, stat){
             alert("You have successfully finished this questionnaire!");
             window.location.href = "/";
         });
@@ -76,7 +76,7 @@ window.onload = function(){
             data.quesType = "single";
             OnSubmitClick(surveyID, data);
         });
-        $.get("/homeApi/questionnaire", {surveyID: surveyID}, function(resp, stat){
+        $.get("/surveyApi/questionnaire", {surveyID: surveyID}, function(resp, stat){
             surveyBody = resp.data;
             console.log(surveyBody);
             console.log(surveyBody);

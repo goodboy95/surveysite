@@ -15,5 +15,9 @@ namespace web.Controllers
         public ViewBaseController(DwDbContext dbc, ILoggerFactory logFac, IServiceProvider svp) : base(dbc, logFac, svp)
         {
         }
+        protected override void LoginFail(ActionExecutingContext context)
+        {
+            context.Result = Redirect("/home/logout/");
+        }
     }
 }
