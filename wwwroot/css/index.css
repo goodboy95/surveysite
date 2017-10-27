@@ -22,12 +22,6 @@
     font: 50px arial,sans-serif;
 }
 
-.leftside {
-    height: 80%;
-    width: 45%;
-    float: left;
-}
-
 #index-frame {
     margin-top: 5%;
     height: 40%;
@@ -36,15 +30,13 @@
     
 }
 
-#realpage {
+#popQuizTitle {
+    font: 50px arial,sans-serif;
+}
+
+#quizBlock {
     height: 100%;
     width: 80%;
     margin: 0 auto;
-    background-image: url(../image/sky.jpg);
-}
-
-.login-form {
-    height: 80%;
-    width: 45%;
-    float: right;
+    /*background-image: url(../image/sky.jpg);*/
 }

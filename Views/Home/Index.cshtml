@@ -11,32 +11,18 @@
 
 <div id="index-frame">
     <div id="background">
-        <div id="realpage">
-            <div class="leftside">
-                <p id="notice">Under Construction...</p>
-                <p id="notice">Temporarily unable to sign up on sign on.</p>
-                <button id="create" class="layui-btn">Create a questionnaire</button>
-                <br />
-                <label>Please input a questionnaire ID to start a survey:</label>
-                <input type="text" id="surveyNo" />
-                <button id="doSurvey" class="layui-btn">Do a survey</button>
-                <button id="adminPage" class="layui-btn">Answer list page</button>
+        <div id="quizBlock">
+            <div>
+                <p id="popQuizTitle">Popular Quiz:</p>
             </div>
-            <div class="login-form">
-                <form class="layui-form">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">Username:</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="userName" id="userName" placeholder="" autocomplete="off" class="layui-input">
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">Password:</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="password" id="password" placeholder="" autocomplete="off" class="layui-input">
-                        </div>
-                    </div>
-                </form>
+            <div id="quizList">
+                <div class="quiz">
+
+                </div>
+            </div>
+            <div>
+                <p>Wanna make your own quiz?</p>
+                <p>Register or Sign in to do this!</p>
             </div>
         </div>
     </div>
@@ -64,4 +50,15 @@
             @Html.Raw(ViewBag.QuesList)
         </tbody>
     </table>
+</div>
+
+<div class="leftside" hidden>
+    <p id="notice">Under Construction...</p>
+    <p id="notice">Temporarily unable to sign up on sign on.</p>
+    <button id="create" class="layui-btn">Create a questionnaire</button>
+    <br />
+    <label>Please input a questionnaire ID to start a survey:</label>
+    <input type="text" id="surveyNo" />
+    <button id="doSurvey" class="layui-btn">Do a survey</button>
+    <button id="adminPage" class="layui-btn">Answer list page</button>
 </div>
