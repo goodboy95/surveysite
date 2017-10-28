@@ -19,6 +19,7 @@ namespace web.Api.Controllers
         public SurveyApiController(DwDbContext dbc, ILoggerFactory logFac, IServiceProvider svp) : base(dbc, logFac, svp)
         {
         }
+
         [HttpPost("questionnaire")]
         public ActionResult SaveQuestionnire(string quesName, string quesJson)
         {
@@ -31,6 +32,7 @@ namespace web.Api.Controllers
             dbc.SaveChanges();
             return JsonReturn.ReturnSuccess();
         }
+
         [HttpPost("answer")]
         public ActionResult SaveAnswer(int surveyID, string answer)
         {
@@ -44,6 +46,7 @@ namespace web.Api.Controllers
             dbc.SaveChanges();
             return JsonReturn.ReturnSuccess();
         }
+
         [HttpGet("questionnaire")]
         public ActionResult GetQuestionnire(int surveyID)
         {
@@ -51,6 +54,7 @@ namespace web.Api.Controllers
             var surveyJArr = JArray.Parse(surveyBody);
             return JsonReturn.ReturnSuccess(surveyJArr);
         }
+        
         [HttpGet("answer")]
         public ActionResult GetAnswer(int answerID)
         {
@@ -61,12 +65,14 @@ namespace web.Api.Controllers
             var result = new JObject(){ ["surveyBody"] = surveyBody, ["answerBody"] = answerBody };
             return JsonReturn.ReturnSuccess(result);
         }
+
         [HttpGet("questionnaire_list")]
         public ActionResult GetQuestionnaireList()
         {
             var surveyList = from al in dbc.Survey where al.SurveyIsDeleted == false select al;
             return JsonReturn.ReturnSuccess(surveyList);
         }
+        
         [HttpGet("answer_list")]
         public ActionResult GetAnswerList()
         {

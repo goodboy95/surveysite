@@ -17,9 +17,10 @@ using Microsoft.AspNetCore.Http;
 
 namespace simpleproj.Controllers
 {
-    public class HomeController : ApiBaseController
+    [Route("[controller]")]
+    public class HomeApiController : ApiBaseController
     {
-        public HomeController(DwDbContext dbc, ILoggerFactory logFac, IServiceProvider svp) : base(dbc, logFac, svp)
+        public HomeApiController(DwDbContext dbc, ILoggerFactory logFac, IServiceProvider svp) : base(dbc, logFac, svp)
         {
         }
         protected override void LoginFail(ActionExecutingContext context)
@@ -36,7 +37,8 @@ namespace simpleproj.Controllers
             }
             return passHash;
         }
-        [HttpPut("register")]
+        
+        [HttpPost("register")]
         public JsonReturn Register(string username, string password)
         {
             username = HTMLEntity.XSSConvert(username);
@@ -50,6 +52,7 @@ namespace simpleproj.Controllers
             dbc.SaveChanges();
             return JsonReturn.ReturnSuccess();
         }
+
         [HttpPost("login")]
         public JsonReturn Login(string username, string password)
         {
