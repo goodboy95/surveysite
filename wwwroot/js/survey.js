@@ -78,10 +78,11 @@ window.onload = function(){
         });
         $.get("/surveyApi/questionnaire", {surveyID: surveyID}, function(resp, stat){
             surveyBody = resp.data;
-            console.log(surveyBody);
-            console.log(surveyBody);
-            RenderQuestion();
+            //RenderQuestion();
         });
     });
-
+    document.getElementById("startSurvey").onclick = function() {
+        $("#intro").hide();
+        RenderQuestion();
+    }
 };

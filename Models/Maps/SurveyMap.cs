@@ -18,8 +18,11 @@ namespace Domain.Mapping
             entity.Property(p => p.SurveyCreator).HasColumnName("survey_creator");
             entity.Property(p => p.SurveyIsDeleted).HasColumnName("survey_is_deleted");
             entity.Property(p => p.SurveyName).HasColumnName("survey_name").HasColumnType("varchar(80)").IsRequired();
+            entity.Property(p => p.SurveyIntro).HasColumnName("survey_intro").HasColumnType("varchar(255)");
+            entity.Property(p => p.SurveyPicPath).HasColumnName("survey_picpath");
             entity.Property(p => p.SurveyBody).HasColumnName("survey_body").IsRequired();
-            //entity.Ignore(p => p.SurveyBody);
+            entity.Property(p => p._surveyLikes).HasColumnName("survey_likes").IsRequired();
+            entity.Ignore(p => p.SurveyLikes);
         }
     }
 }

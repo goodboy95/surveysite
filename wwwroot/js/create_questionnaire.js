@@ -75,7 +75,7 @@ window.onload = function () {
                         return;
                     }
                     ques.options.push(option);
-                    //后续清除操作
+
                     if (i > 1) {
                         optionJq.remove();
                     }
@@ -92,6 +92,11 @@ window.onload = function () {
         });
     });
 
+    layui.use('layedit', function(){
+        var layedit = layui.layedit;
+        layedit.build('introContext');
+    });
+
     document.getElementById("addQues").onclick = ShowQuestionDialog;
 
     document.getElementById("removeQues").onclick = function(){
@@ -104,31 +109,9 @@ window.onload = function () {
     document.getElementById("submit").onclick = function(){
         
         var questionnaireTitle = $("#surveyName").val();
-        for (var i = 1; i <= quesNum; i++)
-        {
-            var ques = new Object();
-            var quesObj = $(`#q${i}`);
-            if (quesObj != undefined) {
-                ques.quesName = quesObj.find("#quesName").val();
-                ques.answerType = quesObj.find("#answerType").val();
-                ques.options = new Array();
-                for (var j = 1; j <= optionNum[i - 1]; j++) {
-                    var option = new Object();
-                    optionJq = quesObj.find(`#o${j}`);
-                    option.text = optionJq.find("#optionText").val();
-                    option.rel = optionJq.find("#relatedQues").val();
-                    if (isNaN(parseInt(option.rel))) {
-                        alert("Relating-question number must be a number!");
-                        return;
-                    }
-                    ques.options.push(option);
-                }
-                questionList.push(ques);
-            }
-        }
         console.log(questionList);
-        $.post("/surveyApi/questionnaire", {quesName: questionnaireTitle, quesJson: JSON.stringify(questionList)}, function(resp, stat) {
+       /* $.post("/surveyApi/questionnaire", {quesName: questionnaireTitle, quesJson: JSON.stringify(questionList)}, function(resp, stat) {
             window.location.href = "/";
-        });
+        });*/
     };
 };

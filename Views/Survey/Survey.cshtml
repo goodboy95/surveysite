@@ -6,6 +6,19 @@
 </div>
 
 <div>
+    <div id="intro">
+        <div id="titleBlock">
+            @ViewBag.Title
+        </div>
+        <div id="contextBlock">
+            <p>@ViewBag.Intro</p>
+        </div>
+        <div id="picBlock">
+            <img src="@(Viewbag.PicPath)" />
+        </div>
+        <button class="layui-btn" id="startSurvey">Start</button>
+    </div>
+    
     <div id="optionQues" class="layui-form" hidden>
         <label class="layui-form-label" id="optQuesTitle" style="width:auto">Question: </label>
         <br />
@@ -16,7 +29,12 @@
         </div>
         <div class="layui-form-item">
             <div class="layui-input-block">
-                <button class="layui-btn" lay-filter="optSubmit" lay-submit>Next</button>
+                <button class="layui-btn" lay-filter="optPrev" lay-submit>Prev</button>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-filter="optNext" lay-submit>Next</button>
             </div>
         </div>
     </div>
