@@ -64,7 +64,8 @@ function RenderQuestion() {
     }
 }
 
-window.onload = function(){
+window.onload = function () {
+    headerMenu();
     var surveyID = document.getElementById("surveyID").value;
     layui.use("form", function(){
         form = layui.form;
