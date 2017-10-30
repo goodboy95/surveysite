@@ -13,22 +13,30 @@ using Domain.Entity;
 namespace web.Api.Controllers
 {
     [Route("[controller]")]
-    public class SurveyApiController : ApiBaseController
+    public class QuizApiController : ApiBaseController
     {
 
-        public SurveyApiController(DwDbContext dbc, ILoggerFactory logFac, IServiceProvider svp) : base(dbc, logFac, svp)
+        public QuizApiController(DwDbContext dbc, ILoggerFactory logFac, IServiceProvider svp) : base(dbc, logFac, svp)
         {
         }
 
         [HttpPost("questionnaire")]
-        public ActionResult SaveQuestionnire(string quesName, string quesJson)
+        public ActionResult SaveQuestionnire(int quesId, string quesName, string quesIntro, string quesJson)
         {
             var surveyObj = new SurveyEntity();
             int.TryParse(Request.Cookies["id"], out int creator);
             surveyObj.SurveyBody = quesJson;
             surveyObj.SurveyName = quesName;
+            surveyObj.SurveyIntro = quesIntro;
             surveyObj.SurveyCreator = creator;
+            surveyObj.SurveyLikes = new List<string>();
             dbc.Survey.Add(surveyObj);
+            if (quesId > 0)
+            {
+                var prevQues = dbc.Survey.Find(quesId);
+                prevQues.SurveyIsDeleted = true;
+                dbc.Survey.Add(prevQues);
+            }
             dbc.SaveChanges();
             return JsonReturn.ReturnSuccess();
         }

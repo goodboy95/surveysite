@@ -11,13 +11,13 @@ using Microsoft.Extensions.Logging;
 
 namespace simpleproj.Controllers
 {
-    public class SurveyController : ViewBaseController
+    public class QuizController : ViewBaseController
     {
-        public SurveyController(DwDbContext dbc, ILoggerFactory logFac, IServiceProvider svp) : base(dbc, logFac, svp) { }
+        public QuizController(DwDbContext dbc, ILoggerFactory logFac, IServiceProvider svp) : base(dbc, logFac, svp) { }
 
         // GET: /<controller>/
         public IActionResult CreateQuestionnaire() => View();
-        public IActionResult Survey(int id)
+        public IActionResult QuizPage([FromRoute]int id)
         {
             ViewBag.surveyID = id;
             return View();

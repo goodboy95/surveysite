@@ -21,13 +21,8 @@ namespace web.Controllers
         {
         }
         public IActionResult Index() => View();
-
-        [Route("admin_template")]
         public IActionResult Admin_template() => View();
-
-        [Route("admin_answer")]
         public IActionResult Admin_answer() => View();
-
         public IActionResult Logout()
         {
             var domain = new HttpParser(HttpContext).GetDomain();

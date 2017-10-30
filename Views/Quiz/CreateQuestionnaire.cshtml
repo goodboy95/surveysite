@@ -14,8 +14,8 @@
 
     <table class="layui-table">
         <colgroup>
-            <col width="150">
-            <col width="200">
+            <col>
+            <col>
             <col>
             <col />
         </colgroup>
@@ -30,28 +30,29 @@
         <tbody id="answerList"></tbody>
     </table>
 </div>
-<button class="layui-btn" id="addQues">Add a question</button>
-<button class="layui-btn" id="removeQues">Remove a question</button>
-<button class="layui-btn" id="submit">Save questionnaire</button>
-
+<div id="buttonGrp">
+    <button class="layui-btn" id="addQues">Add a question</button>
+    <button class="layui-btn" id="removeQues">Remove a question</button>
+    <button class="layui-btn" id="submit">Save questionnaire</button>
+</div>
 
 <!--Dom Items-->
-<div hidden>
+<div>
 
-    <table>
-        <tr id="questionRow">
+    <table hidden>
+        <tr id="questionRow" class="ques-row">
             <th class="quesID"></th>
             <th class="quesName"></th>
             <th class="quesType"></th>
-            <th><button id="openQues" class="layui-btn">Edit</button></th>
+            <th><button id="openQues" class="layui-btn" onclick="EditQues(this)">Edit</button></th>
         </tr>
     </table>
 
-    <form id="quesEditor" class="layui-form">
+    <div id="quesEditor" class="layui-form" hidden>
         <div class="layui-form-item">
             <label class="layui-form-label">Question title：</label>
             <div class="layui-input-block">
-                <input type="text" name="quesName" placeholder="Enter the title of this question here" autocomplete="off" class="layui-input" lay-verify="required">
+                <input type="text" id="quesName" name="quesName" placeholder="Enter the title here" autocomplete="off" class="layui-input" lay-verify="required">
             </div>
         </div>
         <div class="layui-form-item">
@@ -66,19 +67,20 @@
         </div>
         <div class="layui-form-item" id="optionInput" hidden>
             <div id="options">
-                <div id="o1">
-                    <label class="layui-form-label">Option Text：</label>
+                <div id="o1" class="option-item">
+                    <p class="ques-num">Option 1:</p>
                     <div class="layui-input-block">
-                        <input type="text" id="optionText" placeholder="" autocomplete="off" class="layui-input">
+                        <input type="text" id="optionText" placeholder="input Option Text" autocomplete="off" class="layui-input">
                     </div>
-                    <label class="layui-form-label">Next ques Num：</label>
                     <div class="layui-input-block">
-                        <input type="text" id="relatedQues" placeholder="" autocomplete="off" class="layui-input">
+                        <input type="text" id="relatedQues" placeholder="input next ques num" autocomplete="off" class="layui-input">
                     </div>
                 </div>
             </div>
-            <button class="layui-btn" onclick="RemoveOption(this)">removeOption</button>
-            <button class="layui-btn" onclick="AddOption(this)">addOption</button>
+            <div class="submit-button-area">
+                <button class="layui-btn" onclick="RemoveOption()">removeOption</button>
+                <button class="layui-btn" onclick="AddOption()">addOption</button>
+            </div>
         </div>
         <div class="layui-form-item" id="textQuesDetail" hidden>
             <label class="layui-form-label">Next Question：</label>
@@ -86,7 +88,8 @@
                 <input type="text" id="textNextQues" name="nextQues" placeholder="" autocomplete="off" class="layui-input">
             </div>
         </div>
-        <button class="layui-btn" lay-submit lay-filter="saveques">Save Question</button>
-    </form>
-    <div id="quesDialogTempStore"></div>
+        <div class="submit-button-area">
+            <button class="layui-btn" lay-submit lay-filter="saveques">Save Question</button>
+        </div>
+    </div>
 </div>

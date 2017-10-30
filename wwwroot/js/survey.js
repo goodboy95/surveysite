@@ -11,16 +11,14 @@ function OnSubmitClick(surveyID, data) {
     var quesType = data.quesType;
     var optionsObj = surveyBody[currentQues].options;
     if (quesType === "single") {
-        nextQues = parseInt(optionsObj[0].rel);
+        nextQues = parseInt(surveyBody[currentQues].nextQues);
     }
     else {
         var opt = parseInt(data.field.answer);
         nextQues = parseInt(optionsObj[opt].rel);
     }
-    console.log(optionsObj[0]);
     ansObj.quesNo = currentQues;
     ansObj.answer = data.field.answer;
-    console.log(ansObj);
     answerArr[quesNumbers] = ansObj;
     quesRoute[quesNumbers] = currentQues;
     if (nextQues > 0) {
@@ -28,8 +26,8 @@ function OnSubmitClick(surveyID, data) {
         RenderQuestion();
     }
     else {
-        $.post("/surveyApi/answer", {surveyID: surveyID, answer: JSON.stringify(answerArr)}, function(resp, stat){
-            alert("You have successfully finished this questionnaire!");
+        $.post("/quizApi/answer", {surveyID: surveyID, answer: JSON.stringify(answerArr)}, function(resp, stat){
+            alert("You have successfully finished this quiz!");
             window.location.href = "/";
         });
     }
@@ -38,16 +36,17 @@ function OnSubmitClick(surveyID, data) {
 }
 
 function RenderQuestion() {
-    $("#optQuesTitle").empty();
-    $("#textQuesTitle").empty();
-    $("#optionArea").empty();
-    $("#answerArea").empty();
+    $("#optQuesTitle").html("");
+    $("#textQuesTitle").html("");
+    $("#optionArea").val("");
+    $("#answerArea").val("");
     var ques = surveyBody[currentQues];
     var quesName = ques.quesName;
     var optionArr = ques.options;
+    $(".ques-title").html(`Question: ${quesName}`);
     if (parseInt(ques.answerType) === 2) {
         $("#optionQues").show();
-        $("#optQuesTitle").append(quesName);
+        $("#textQues").hide();
         for (var i = 0; i < optionArr.length; i++) {
             var optionBody = document.getElementById("optAnswer").cloneNode(true);
             optionBody.value = i;
@@ -60,6 +59,7 @@ function RenderQuestion() {
         form.render('radio');
     }
     else {
+        $("#optionQues").hide();
         $("#textQues").show();
     }
 }
@@ -76,9 +76,9 @@ window.onload = function(){
             data.quesType = "single";
             OnSubmitClick(surveyID, data);
         });
-        $.get("/surveyApi/questionnaire", {surveyID: surveyID}, function(resp, stat){
+        $.get("/quizApi/questionnaire", {surveyID: surveyID}, function(resp, stat){
             surveyBody = resp.data;
-            //RenderQuestion();
+            RenderQuestion();
         });
     });
     document.getElementById("startSurvey").onclick = function() {

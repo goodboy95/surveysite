@@ -1,3 +1,6 @@
+@{ 
+    Layout = null;
+}
 <link rel="stylesheet" href="~/css/survey.css" />
 <script src="~/js/survey.js"></script>
 <div hidden>
@@ -6,7 +9,7 @@
 </div>
 
 <div>
-    <div id="intro">
+    <div id="intro" hidden>
         <div id="titleBlock">
             @ViewBag.Title
         </div>
@@ -14,14 +17,13 @@
             <p>@ViewBag.Intro</p>
         </div>
         <div id="picBlock">
-            <img src="@(Viewbag.PicPath)" />
+            <img src="@(ViewBag.PicPath)" />
         </div>
         <button class="layui-btn" id="startSurvey">Start</button>
     </div>
-    
+    <label class="layui-form-label ques-title" style="width:auto">Question: </label>
+    <br />
     <div id="optionQues" class="layui-form" hidden>
-        <label class="layui-form-label" id="optQuesTitle" style="width:auto">Question: </label>
-        <br />
         <div class="layui-form-item">
             <div class="layui-input-block" id="optionArea">
 
@@ -29,19 +31,13 @@
         </div>
         <div class="layui-form-item">
             <div class="layui-input-block">
-                <button class="layui-btn" lay-filter="optPrev" lay-submit>Prev</button>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <div class="layui-input-block">
-                <button class="layui-btn" lay-filter="optNext" lay-submit>Next</button>
+                <button class="layui-btn" lay-filter="optSubmit" lay-submit>Next</button>
             </div>
         </div>
     </div>
 
     <div id="textQues" class="layui-form" hidden>
         <div class="layui-form-item">
-            <label class="layui-form-label" id="textQuesTitle"></label>
             <div class="layui-input-block">
                 <textarea id="answerArea" name="answer" required lay-verify="required" placeholder="Input..." class="layui-textarea"></textarea>
             </div>
