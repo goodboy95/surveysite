@@ -1,44 +1,85 @@
 <link rel="stylesheet" href="~/css/create_questionnaire.css" />
 <script src="~/js/create_questionnaire.js"></script>
+
+<div id="questionBox">    
+    <div class="layui-input-block">
+        <input type="text" id="surveyName" placeholder="Enter the title of this questionnaire here" autocomplete="off" class="layui-input">
+    </div>
+    <table class="layui-table">
+        <colgroup>
+            <col width="150">
+            <col width="200">
+            <col>
+            <col />
+        </colgroup>
+        <thead>
+            <tr>
+                <th>QuestionNum</th>
+                <th>QuestionName</th>
+                <th>Question Type</th>
+                <th>Edit</th>
+            </tr>
+        </thead>
+        <tbody id="answerList"></tbody>
+    </table>
+</div>
+<button class="layui-btn" id="addQues">Add a question</button>
+<button class="layui-btn" id="removeQues">Remove a question</button>
+<button class="layui-btn" id="submit">Save questionnaire</button>
+
+
+<!--Dom Items-->
 <div hidden>
-    <div id="q0" class="layui-form">
-        <div class="layui-form-item">
-            <label class="layui-form-label" id="title">Ques.1：</label>
-        </div>
+
+    <table>
+        <tr id="questionRow">
+            <th class="quesID"></th>
+            <th class="quesName"></th>
+            <th class="quesType"></th>
+            <th><button id="openQues" class="layui-btn">Edit</button></th>
+        </tr>
+    </table>
+
+    <form id="quesEditor" class="layui-form">
         <div class="layui-form-item">
             <label class="layui-form-label">Question title：</label>
             <div class="layui-input-block">
-                <input type="text" id="quesName" placeholder="Enter the title of this question here" autocomplete="off" class="layui-input">
+                <input type="text" name="quesName" placeholder="Enter the title of this question here" autocomplete="off" class="layui-input" lay-verify="required">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">Question type：</label>
             <div class="layui-input-block">
-                <select name="answerType" id="answerType" lay-filter="answerType">
+                <select name="answerType" id="answerType" lay-filter="answerType" lay-verify="required">
                     <option value="">Choose a question type</option>
-                    <option value="0" disabled>Text answer(temporarily Unavaliable)</option>
+                    <option value="0">Text answer</option>
                     <option value="2">Multiple choice</option>
                 </select>
             </div>
         </div>
         <div class="layui-form-item" id="optionInput" hidden>
-            <label class="layui-form-label">Options：</label>
-            <div class="layui-input-block" id="options">
+            <div id="options">
                 <div id="o1">
-                    <input type="text" id="optionText" placeholder="Option text--Input the text of this option." autocomplete="off" class="layui-input">
-                    <input type="text" id="relatedQues" placeholder="Number of Next Question--Input the number of question you'd like to jump to if this option is selected.'" autocomplete="off" class="layui-input">
+                    <label class="layui-form-label">Option Text：</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="optionText" placeholder="" autocomplete="off" class="layui-input">
+                    </div>
+                    <label class="layui-form-label">Next ques Num：</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="relatedQues" placeholder="" autocomplete="off" class="layui-input">
+                    </div>
                 </div>
             </div>
             <button class="layui-btn" onclick="RemoveOption(this)">removeOption</button>
             <button class="layui-btn" onclick="AddOption(this)">addOption</button>
         </div>
-    </div>
+        <div class="layui-form-item" id="textQuesDetail" hidden>
+            <label class="layui-form-label">Next Question：</label>
+            <div class="layui-input-block">
+                <input type="text" id="textNextQues" name="nextQues" placeholder="" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <button class="layui-btn" lay-submit lay-filter="saveques">Save Question</button>
+    </form>
+    <div id="quesDialogTempStore"></div>
 </div>
-<div id="questionBox">    
-    <div class="layui-input-block">
-        <input type="text" id="surveyName" placeholder="Enter the title of this questionnaire here" autocomplete="off" class="layui-input">
-    </div>
-</div>
-<button class="layui-btn" id="addQues">Add a question</button>
-<button class="layui-btn" id="removeQues">Remove a question</button>
-<button class="layui-btn" id="submit">Save questionnaire</button>

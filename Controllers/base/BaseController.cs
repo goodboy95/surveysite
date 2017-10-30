@@ -40,6 +40,12 @@ namespace web.Controllers
             {
                 LoginFail(context);
             }
+            else
+            {
+                ViewBag.UserId = Request.Cookies["id"];
+                ViewBag.Username = Request.Cookies["username"];
+                ViewBag.IsLogin = "true";
+            }
         }
         public override void OnActionExecuted(ActionExecutedContext context)
         {

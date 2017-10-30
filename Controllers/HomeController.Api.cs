@@ -48,8 +48,12 @@ namespace simpleproj.Controllers
             var loginIPDic = new Dictionary<string, bool>();
             loginIPDic.Add(ip, true);
             UserEntity u = new UserEntity { Name = username, Pass = passHash, Salt = salt, LoginIP = loginIPDic };
-            dbc.User.Add(u);
-            dbc.SaveChanges();
+            try
+            {
+                dbc.User.Add(u);
+                dbc.SaveChanges();
+            }
+            catch (Exception e) { return JsonReturn.ReturnFail("无法添加该员工"); }
             return JsonReturn.ReturnSuccess();
         }
 

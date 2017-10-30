@@ -1,7 +1,6 @@
 var quesNum = 0;
-var optionNum = new Array();
-var quesBody = null;
-var optionBody = null;
+var optionNum = 0;
+var questionList = new Array();
 var form = null;
 
 function AddOption(optBox) {
@@ -10,23 +9,31 @@ function AddOption(optBox) {
     var optBoxJq = $(optBox);
     var quesStrId = optBoxJq.parents(".layui-form").attr("id");
     var quesId = parseInt(optBoxJq.parents(".layui-form").attr("id").substring(1)) - 1;
-    optionNum[quesId]++;
-    optionJq.attr("id", `o${optionNum[quesId]}`);
-    optBoxJq.siblings("#options").append(optionJq);
+    optionNum++;
+    optionJq.attr("id", `o${optionNum}`);
+    $("#options").append(optionJq);
 };
 
 function RemoveOption(optBox) {
     var optBoxJq = $(optBox);
     var quesStrId = optBoxJq.parents(".layui-form").attr("id");
     var quesId = parseInt(quesStrId.substring(1)) - 1;
-    if (optionNum[quesId] <= 0) return;
-    $(`#${quesStrId} #o${optionNum[quesId]}`).remove();
-    optionNum[quesId]--;
+    if (optionNum <= 0) return;
+    $(`#${quesStrId} #o${optionNum}`).remove();
+    optionNum--;
+};
+
+function ShowQuestionDialog() {
+    layer.open({
+        type: 1,
+        content: $('#quesEditor'),
+        title: "Question Editor"
+    });
 };
 
 function AddQuestion() {
     quesNum++;
-    optionNum[quesNum] = 1;
+    optionNum = 1;
     var quesBody = document.getElementById("q0").cloneNode(true);
     quesBody.id = `q${quesNum}`;
     quesBodyJq = $(quesBody);
@@ -35,24 +42,57 @@ function AddQuestion() {
     form.render('select');
 }
 
-window.onload = function(){
-    optionNum[0] = 1;
+window.onload = function () {
+    headerMenu();
+    optionNum = 1;
     layui.use("form", function(){
         form = layui.form;
         form.on("select(answerType)", function(data) {
             var choice = data.value;
             var quesId = $(data.elem).parents(".layui-form")[0].id;
             if (choice >= 2) {
-                $(`#${quesId} #optionInput`).show();
+                $(`#optionInput`).show();
+                $(`#textQuesDetail`).hide();
             }
             else {
-                $(`#${quesId} #optionInput`).hide();
+                $(`#optionInput`).hide();
+                $(`#textQuesDetail`).show();
             }
         });
-        AddQuestion();
+        form.on('submit(saveques)', function (data) {
+            var ques = new Object();
+            ques.quesName = data.field.quesName;
+            ques.answerType = data.field.answerType;
+            if (parseInt(quesType) >= 2) {
+                ques.options = new Array();
+                for (var i = 1; i <= optionNum; i++) {
+                    var option = new Object();
+                    optionJq = quesObj.find(`#o${i}`);
+                    option.text = optionJq.find("#optionText").val();
+                    option.rel = optionJq.find("#relatedQues").val();
+                    if (isNaN(parseInt(option.rel))) {
+                        alert("Relating-question number must be a number!");
+                        return;
+                    }
+                    ques.options.push(option);
+                    //后续清除操作
+                    if (i > 1) {
+                        optionJq.remove();
+                    }
+                    else {
+                        optionJq.find("#optionText").val("");
+                        optionJq.find("#relatedQues").val("");
+                    }
+                }
+            }
+            else {
+                ques.nextQues = data.field.nextQues;
+                $("#textNextQues").val("");
+            }
+        });
     });
 
-    document.getElementById("addQues").onclick = AddQuestion;
+    document.getElementById("addQues").onclick = ShowQuestionDialog;
 
     document.getElementById("removeQues").onclick = function(){
         if (quesNum >= 1) {
@@ -62,7 +102,7 @@ window.onload = function(){
     };
 
     document.getElementById("submit").onclick = function(){
-        var questionList = new Array();
+        
         var questionnaireTitle = $("#surveyName").val();
         for (var i = 1; i <= quesNum; i++)
         {

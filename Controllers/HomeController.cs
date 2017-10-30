@@ -20,19 +20,14 @@ namespace web.Controllers
         public HomeController(DwDbContext dbc, ILoggerFactory logFac, IServiceProvider svp) : base(dbc, logFac, svp)
         {
         }
-        public IActionResult Index()
-        {
-            if (!string.IsNullOrEmpty(Request.Cookies["id"]))
-            {
-                ViewBag.UserId = Request.Cookies["id"];
-                ViewBag.Username = Request.Cookies["username"];
-                ViewBag.IsLogin = "true";
-            }
-            else { ViewBag.IsLogin = "false"; }
-            return View();
-        }
-        
-        public IActionResult Admin() => View();
+        public IActionResult Index() => View();
+
+        [Route("admin_template")]
+        public IActionResult Admin_template() => View();
+
+        [Route("admin_answer")]
+        public IActionResult Admin_answer() => View();
+
         public IActionResult Logout()
         {
             var domain = new HttpParser(HttpContext).GetDomain();

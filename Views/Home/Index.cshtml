@@ -1,27 +1,5 @@
-<link rel="stylesheet" href="~/css/index.css" />
-<script src="~/lib/jscookie.js"></script>
 <script src="~/js/index.js"></script>
-<input id="islogin" hidden value="@(ViewBag.IsLogin)" />
-
-<div id="unlogin-menu" class="layui-header">
-    <ul class="layui-nav right-menu" lay-filter="">
-        <li class="layui-nav-item login-menu"><a href="" id="login-link">Sign In</a></li>
-        <li class="login-menu menu-text">or</li>
-        <li class="layui-nav-item login-menu"><a href="" id="reg-link">Sign Up</a></li>
-    </ul>
-</div>
-
-<div id="logined-menu" class="layui-header" hidden>
-    <ul class="layui-nav" lay-filter="">
-        <li class="layui-nav-item login-menu"><a href="" id="create">Create a template</a></li>
-        <li class="layui-nav-item login-menu"><a href="" id="template-manage">Manage templates</a></li>
-        <li class="layui-nav-item login-menu"><a href="" id="answer-manage">View answers</a></li>
-    </ul>
-    <ul class="layui-nav right-menu" lay-filter="">
-        <li class="layui-nav-item login-menu"><a href="" id="login-link">@ViewBag.Username</a></li>
-    </ul>
-</div>
-
+<link rel="stylesheet" href="~/css/index.css" />
 <div id="index-frame">
     <div id="background">
         <div id="quizBlock">
@@ -39,61 +17,4 @@
             </div>
         </div>
     </div>
-</div>
-
-
-<div hidden>
-    <table class="layui-table">
-        <colgroup>
-            <col width="150">
-            <col width="200">
-            <col>
-        </colgroup>
-        <thead>
-            <tr>
-                <th>Ques.ID</th>
-                <th>Ques.Name</th>
-                <th>Ques.Creator(Temporarily not exist)</th>
-            </tr>
-        </thead>
-        <tbody id="quesList">
-            @Html.Raw(ViewBag.QuesList)
-        </tbody>
-    </table>
-</div>
-
-<div id="register" hidden>
-    <form class="layui-form" method="post">
-        <div class="layui-form-item">
-            <label class="layui-form-label">Username：</label>
-            <div class="layui-input-block">
-                <input type="text" name="username" placeholder="" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">Password：</label>
-            <div class="layui-input-block">
-                <input type="text" name="password" placeholder="" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <button lay-submit class="layui-btn" id="reg-submit" lay-filter="reg">Register</button>
-    </form>
-</div>
-
-<div id="login" hidden>
-    <form class="layui-form" method="post">
-        <div class="layui-form-item">
-            <label class="layui-form-label">Username：</label>
-            <div class="layui-input-block">
-                <input type="text" name="username" placeholder="" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">Password：</label>
-            <div class="layui-input-block">
-                <input type="text" name="password" placeholder="" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <button lay-submit class="layui-btn" id="login-submit" lay-filter="login">Log in</button>
-    </form>
 </div>

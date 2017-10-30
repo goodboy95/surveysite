@@ -1,27 +1,3 @@
-
-
-.login-menu{
-    display: inline;
-    margin-right: 20px;
-}
-
-.menu-text {
-    vertical-align: middle;
-}
-
-.right-menu {
-    width: 80%;
-    text-align: right;
-}
-
-#menu {
-    background-color: #393D49;
-}
-
-#notice {
-    font: 50px arial,sans-serif;
-}
-
 #index-frame {
     margin-top: 5%;
     height: 40%;
