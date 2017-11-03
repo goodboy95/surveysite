@@ -8,7 +8,9 @@ var answerTypeArr = new Array("Text answer", "", "Multiple choice");
 var isAddQues = false;
 
 function AddOption() {
+    
     var optionJq = $("#quesEditor").find("#o1").clone(true);
+    console.log(optionJq);
     optionJq.find("#optionText").val("");
     optionJq.find("#relatedQues").val("");
     optionJq.find(".ques-num").html(`Option ${optionNum + 1}:`);
@@ -18,6 +20,7 @@ function AddOption() {
 };
 
 function RemoveOption() {
+    console.log("rm");
     if (optionNum <= 1) return;
     var tmpNum = optionNum;
     optionNum--;
@@ -27,6 +30,7 @@ function RemoveOption() {
 function ShowAddQuestionDialog() {
     isAddQues = true;
     curQuesNum = quesNum;
+    optionNum = 0;
     layerIndex = layer.open({
         type: 1,
         content: $('#quesEditor'),

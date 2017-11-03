@@ -5,7 +5,7 @@ var surveyBody;
 var quesRoute = new Array();
 var answerArr = new Array();
 
-function OnSubmitClick(surveyID, data) {
+function OnNextClick(surveyID, data) {
     var nextQues;
     var ansObj = new Object();
     var quesType = data.quesType;
@@ -69,13 +69,20 @@ window.onload = function () {
     var surveyID = document.getElementById("surveyID").value;
     layui.use("form", function(){
         form = layui.form;
-        form.on("submit(optSubmit)", function(data){
+        form.on("submit(optNext)", function(data){
             data.quesType = "multiple";
-            OnSubmitClick(surveyID, data);
+            OnNextClick(surveyID, data);
         });
-        form.on("submit(textSubmit)", function(data){
+        form.on("submit(textNext)", function(data){
             data.quesType = "single";
-            OnSubmitClick(surveyID, data);
+            OnNextClick(surveyID, data);
+        });
+        form.on("submit(prev)", function(data) {
+            quesNumbers--;
+            answerArr = answerArr.pop();
+            currentQues = answerArr[quesNumbers];
+            RenderQuestion();
+
         });
         $.get("/quizApi/questionnaire", {surveyID: surveyID}, function(resp, stat){
             surveyBody = resp.data;

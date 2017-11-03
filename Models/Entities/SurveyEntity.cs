@@ -4,26 +4,6 @@ using Newtonsoft.Json;
 
 namespace Domain.Entity
 {
-    public enum AnswerTypeEnum
-    {
-        Option = 0,
-        MultiChoice,
-        Number,
-        PlainText
-    }
-    public class ChildQuestion
-    {
-        int ChildQuesID;
-        string DispCondition;
-    }
-    public class Survey
-    {
-        public int QuestionID;
-        public int QuestionText;
-        public AnswerTypeEnum AnswerType;
-        public List<string> Choices;
-        public List<ChildQuestion> ChildQuesList;
-    }
     public class SurveyEntity
     {
         public SurveyEntity()
