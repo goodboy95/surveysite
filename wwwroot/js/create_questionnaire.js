@@ -30,7 +30,7 @@ function RemoveOption() {
 function ShowAddQuestionDialog() {
     isAddQues = true;
     curQuesNum = quesNum;
-    optionNum = 0;
+    optionNum = 1;
     layerIndex = layer.open({
         type: 1,
         content: $('#quesEditor'),

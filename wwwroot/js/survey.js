@@ -1,6 +1,6 @@
 var form;
 var currentQues = 0;
-var quesNumbers = 0;
+var quesCount = 0;
 var surveyBody;
 var quesRoute = new Array();
 var answerArr = new Array();
@@ -19,8 +19,8 @@ function OnNextClick(surveyID, data) {
     }
     ansObj.quesNo = currentQues;
     ansObj.answer = data.field.answer;
-    answerArr[quesNumbers] = ansObj;
-    quesRoute[quesNumbers] = currentQues;
+    answerArr[quesCount] = ansObj;
+    quesRoute[quesCount] = currentQues;
     if (nextQues > 0) {
         currentQues = nextQues - 1;
         RenderQuestion();
@@ -31,14 +31,14 @@ function OnNextClick(surveyID, data) {
             window.location.href = "/";
         });
     }
-    quesNumbers++;
+    quesCount++;
     return false;
 }
 
 function RenderQuestion() {
     $("#optQuesTitle").html("");
     $("#textQuesTitle").html("");
-    $("#optionArea").val("");
+    $("#optionArea").html("");
     $("#answerArea").val("");
     var ques = surveyBody[currentQues];
     var quesName = ques.quesName;
@@ -54,7 +54,7 @@ function RenderQuestion() {
             if (i === 0) {
                 optionBody.checked = true;
             }
-            $("#optionArea").append($(optionBody));
+            $("#optionArea").append($(optionBody)).append("<br />");
         }
         form.render('radio');
     }
@@ -78,11 +78,11 @@ window.onload = function () {
             OnNextClick(surveyID, data);
         });
         form.on("submit(prev)", function(data) {
-            quesNumbers--;
-            answerArr = answerArr.pop();
-            currentQues = answerArr[quesNumbers];
+            currentQues = quesRoute[quesCount-1];
+            quesCount--;
+            answerArr.pop();
+            quesRoute.pop();
             RenderQuestion();
-
         });
         $.get("/quizApi/questionnaire", {surveyID: surveyID}, function(resp, stat){
             surveyBody = resp.data;
