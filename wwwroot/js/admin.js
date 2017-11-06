@@ -13,7 +13,7 @@ window.onload = function () {
                 success: function (dom, index) {
                     $("#answerText").empty();
                     $.get("/quizapi/questionnaire", { surveyID: answerNum }, function (resp, stat) {
-                        var quesArr = resp.data;
+                        var quesArr = JSON.parse(resp.data.surveyBody);
                         var answers = JSON.parse(answerList[answerNum - 1].answerBody);
                         for (var i = 0; i < answers.length; i++) {
                             var answerElem = $("#answerElem").clone(true);
@@ -46,7 +46,6 @@ window.onload = function () {
         answerList = resp.data;
         for (var i = 0; i < answerList.length; i++) {
             var answerRow = $("#ansRow").clone(true);
-            console.log(answerList[i]);
             answerRow.find(".ansID").html(answerList[i].answerID);
             answerRow.find(".quizID").html(answerList[i].surveyID);
             answerRow.find(".ansCreator").html(answerList[i].answerCreator);

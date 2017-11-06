@@ -85,7 +85,7 @@ window.onload = function () {
             RenderQuestion();
         });
         $.get("/quizApi/questionnaire", {surveyID: surveyID}, function(resp, stat){
-            surveyBody = resp.data;
+            surveyBody = JSON.parse(resp.data.surveyBody);
             RenderQuestion();
         });
     });

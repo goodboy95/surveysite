@@ -10,7 +10,18 @@
             $("#quizList").append(quizRow);
         }
     });
-    document.getElementById("#homepage").onclick = function () {
+
+    document.getElementById("homepage").onclick = function () {
         window.location.href = "/";
     };
 };
+
+function EditQuesGroup(editBtn) {
+    var quesNum = parseInt($(editBtn).parents(".quiz-row").find(".quesID").html());
+    window.location.href = `/quiz/createquestionnaire/${quesNum}`;
+}
+
+function GotoQuiz(quizBtn) {
+    var quesNum = parseInt($(quizBtn).parents(".quiz-row").find(".quesID").html());
+    window.location.href = `/quiz/quizpage/${quesNum}`;
+}

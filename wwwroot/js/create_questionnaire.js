@@ -1,5 +1,5 @@
 var quesNum = 0;
-var optionNum = 0;
+var optionNum = 1;
 var curQuesNum = 0;
 var questionList = new Array();
 var form = null;
@@ -103,12 +103,67 @@ function CleanQuesArea() {
     layer.close(layerIndex);
 };
 
+function AddQuesRowToList(ques) {
+    quesNum++;
+    var quesRow = $("#questionRow").clone(true);
+    quesRow.attr("id", `q${curQuesNum + 1}`);
+    quesRow.find(".quesID").html(curQuesNum + 1);
+    quesRow.find(".quesName").html(ques.quesName);
+    quesRow.find(".quesType").html(answerTypeArr[ques.answerType]);
+    $("#answerList").append(quesRow);
+};
+
+function SaveQues(data) {
+    var ques = new Object();
+    ques.quesName = data.field.quesName;
+    ques.answerType = data.field.answerType;
+    if (parseInt(ques.answerType) >= 2) {
+        ques.options = new Array();
+        for (var i = 1; i <= optionNum; i++) {
+            var option = new Object();
+            optionJq = $("#quesEditor").find(`#o${i}`);
+            option.text = optionJq.find("#optionText").val();
+            option.rel = optionJq.find("#relatedQues").val();
+            if (isNaN(parseInt(option.rel))) {
+                alert("Relating-question number must be a number!");
+                return;
+            }
+            ques.options.push(option);
+        }
+    }
+    else {
+        ques.nextQues = data.field.nextQues;
+    }
+    questionList[curQuesNum] = ques;
+    if (isAddQues === true) {
+        AddQuesRowToList(ques);
+    }
+    else {
+        var quesRow = $(`#q${curQuesNum + 1}`);
+        quesRow.find(".quesName").html(ques.quesName);
+        quesRow.find(".quesType").html(answerTypeArr[ques.answerType]);
+    }
+    CleanQuesArea();
+};
+
 window.onload = function () {
     headerMenu();
-    optionNum = 1;
+    var editQuesgroupId = parseInt($("#editid").val());
+    if (editQuesgroupId > 0) {
+        $.get("/quizApi/questionnaire", { surveyID: editQuesgroupId }, function(resp, stat){
+            if (resp.code == 0) {
+                var title = resp.data.surveyName;
+                var intro = resp.data.surveyIntro;
+                questionList = JSON.parse(resp.data.surveyBody);
+                for (var i = 0; i < questionList.length; i++) {
+                    curQuesNum = i;
+                    AddQuesRowToList(questionList[i]);
+                }
+            }
+        });
+    }
     layui.use("form", function(){
         form = layui.form;
-
         form.on("select(answerType)", function(data) {
             var choice = data.value;
             var quesId = $(data.elem).parents(".layui-form")[0].id;
@@ -123,42 +178,7 @@ window.onload = function () {
         });
 
         form.on('submit(saveques)', function (data) {
-            var ques = new Object();
-            ques.quesName = data.field.quesName;
-            ques.answerType = data.field.answerType;
-            if (parseInt(ques.answerType) >= 2) {
-                ques.options = new Array();
-                for (var i = 1; i <= optionNum; i++) {
-                    var option = new Object();
-                    optionJq = $("#quesEditor").find(`#o${i}`);
-                    option.text = optionJq.find("#optionText").val();
-                    option.rel = optionJq.find("#relatedQues").val();
-                    if (isNaN(parseInt(option.rel))) {
-                        alert("Relating-question number must be a number!");
-                        return;
-                    }
-                    ques.options.push(option);
-                }
-            }
-            else {
-                ques.nextQues = data.field.nextQues;
-            }
-            questionList[curQuesNum] = ques;
-            if (isAddQues === true) {
-                quesNum++;
-                var quesRow = $("#questionRow").clone(true);
-                quesRow.attr("id", `q${curQuesNum + 1}`);
-                quesRow.find(".quesID").html(curQuesNum + 1);
-                quesRow.find(".quesName").html(ques.quesName);
-                quesRow.find(".quesType").html(answerTypeArr[ques.answerType]);
-                $("#answerList").append(quesRow);
-            }
-            else {
-                var quesRow = $(`#q${curQuesNum + 1}`);
-                quesRow.find(".quesName").html(ques.quesName);
-                quesRow.find(".quesType").html(answerTypeArr[ques.answerType]);
-            }
-            CleanQuesArea();
+            SaveQues(data);
         });
     });
 
@@ -178,7 +198,6 @@ window.onload = function () {
     };
 
     document.getElementById("submit").onclick = function(){
-        
         var questionnaireTitle = $("#surveyName").val();
         console.log(questionList);
         $.post("/quizApi/questionnaire", { quesName: questionnaireTitle, quesJson: JSON.stringify(questionList) }, function (resp, stat) {

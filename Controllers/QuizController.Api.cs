@@ -58,9 +58,7 @@ namespace web.Api.Controllers
         [HttpGet("questionnaire")]
         public ActionResult GetQuestionnire(int surveyID)
         {
-            var surveyBody = dbc.Survey.Find(surveyID).SurveyBody;
-            var surveyJArr = JArray.Parse(surveyBody);
-            return JsonReturn.ReturnSuccess(surveyJArr);
+            return JsonReturn.ReturnSuccess(dbc.Survey.Find(surveyID));
         }
         
         [HttpGet("answer")]
