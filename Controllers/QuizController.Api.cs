@@ -82,7 +82,11 @@ namespace web.Api.Controllers
         [HttpGet("answer_list")]
         public ActionResult GetAnswerList()
         {
-            var answerList = from al in dbc.Answer where al.AnswerIsDeleted == false select al;
+            var surveyList = from sl in dbc.Survey where sl.SurveyIsDeleted == false select sl;
+            var answerList = from al in dbc.Answer where al.AnswerIsDeleted == false 
+            join ql in surveyList on al.SurveyID equals ql.SurveyID
+            select new JObject(){ ["AnswerID"] = al.AnswerID, ["AnswerBody"] = al.AnswerBody, ["AnswerIP"] = al.AnswerIP,
+                ["SurveyName"] = ql.SurveyName, ["SurveyBody"] = ql.SurveyBody };
             return JsonReturn.ReturnSuccess(answerList);
         }
     }
