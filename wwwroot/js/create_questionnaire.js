@@ -10,7 +10,6 @@ var isAddQues = false;
 function AddOption() {
     
     var optionJq = $("#quesEditor").find("#o1").clone(true);
-    console.log(optionJq);
     optionJq.find("#optionText").val("");
     optionJq.find("#relatedQues").val("");
     optionJq.find(".ques-num").html(`Option ${optionNum + 1}:`);
@@ -20,7 +19,6 @@ function AddOption() {
 };
 
 function RemoveOption() {
-    console.log("rm");
     if (optionNum <= 1) return;
     var tmpNum = optionNum;
     optionNum--;
@@ -199,7 +197,6 @@ window.onload = function () {
 
     document.getElementById("submit").onclick = function(){
         var questionnaireTitle = $("#surveyName").val();
-        console.log(questionList);
         $.post("/quizApi/questionnaire", { quesName: questionnaireTitle, quesJson: JSON.stringify(questionList) }, function (resp, stat) {
             alert("You've successfully created a quiz template!");
             window.location.href = "/";

@@ -29,7 +29,6 @@ window.onload = function () {
                             }
                             answerElem.find("#ques").append(quesStr);
                             answerElem.find("#ans").append(answerStr);
-                            console.log(answerElem);
                             $("#answerText").append(answerElem);
                         }
                     });
