@@ -1,6 +1,6 @@
 ﻿window.onload = function () {
     headerMenu();
-    $.get("/quizApi/questionnaire_list", {}, function (resp, stat) {
+    $.get("/quizApi/quiz_list", {}, function (resp, stat) {
         var surveyList = resp.data;
         for (var i = 0; i < surveyList.length; i++) {
             var quizRow = $("#quizRow").clone(true);
@@ -18,7 +18,7 @@
 
 function EditQuesGroup(editBtn) {
     var quesNum = parseInt($(editBtn).parents(".quiz-row").find(".quesID").html());
-    window.location.href = `/quiz/createquestionnaire/${quesNum}`;
+    window.location.href = `/quiz/createquiz/${quesNum}`;
 }
 
 function GotoQuiz(quizBtn) {

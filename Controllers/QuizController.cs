@@ -15,7 +15,7 @@ namespace simpleproj.Controllers
     {
         public QuizController(DwDbContext dbc, ILoggerFactory logFac, IServiceProvider svp) : base(dbc, logFac, svp) { }
 
-        public IActionResult CreateQuestionnaire([FromRoute]int id)
+        public IActionResult CreateQuiz([FromRoute]int id)
         {
             ViewBag.quesGroupId = id;
             return View();

@@ -53,7 +53,7 @@ namespace simpleproj.Controllers
                 dbc.User.Add(u);
                 dbc.SaveChanges();
             }
-            catch (Exception e) { return JsonReturn.ReturnFail("无法添加该员工"); }
+            catch (Exception e) { return JsonReturn.ReturnFail("Username already exists!"); }
             return JsonReturn.ReturnSuccess();
         }
 
@@ -63,10 +63,10 @@ namespace simpleproj.Controllers
             username = HTMLEntity.XSSConvert(username);
             var domain = new HttpParser(HttpContext).GetDomain();
             UserEntity u = (from lu in dbc.User where lu.Name == username select lu).FirstOrDefault();
-            if (u == null) { return JsonReturn.ReturnFail(-1, "该用户不存在！"); }
+            if (u == null) { return JsonReturn.ReturnFail(-1, "Wrong username or password！"); }
             string salt = u.Salt;
             string passHash = HashStr(salt + password + salt + username);
-            if (u.Pass != passHash) { return JsonReturn.ReturnFail(-2, "密码错误！"); }
+            if (u.Pass != passHash) { return JsonReturn.ReturnFail(-1, "Wrong username or password！"); }
             else
             {
                 if (u.Token == null)

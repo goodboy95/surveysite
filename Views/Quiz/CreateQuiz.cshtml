@@ -1,14 +1,14 @@
-<link rel="stylesheet" href="~/css/create_questionnaire.css" />
-<script src="~/js/create_questionnaire.js"></script>
+<link rel="stylesheet" href="~/css/create_quiz.css" />
+<script src="~/js/create_quiz.js"></script>
 
 <input id="editid" value="@(ViewBag.quesGroupId)" hidden />
 <div id="questionBox">
-    <label class="layui-form-label">Q title：</label>    
+    <label class="layui-form-label">Quiz title：</label>    
     <div class="layui-input-block">
-        <input type="text" id="surveyName" placeholder="Enter the title of this questionnaire here" autocomplete="off" class="layui-input">
+        <input type="text" id="surveyName" placeholder="Enter the title of this quiz here" autocomplete="off" class="layui-input">
     </div>
 
-    <label class="layui-form-label">Q intro：</label>
+    <label class="layui-form-label">Quiz intro：</label>
     <div class="layui-input-block">
         <textarea id="introContext" style="display: none;"></textarea>
     </div>
@@ -34,7 +34,7 @@
 <div id="buttonGrp">
     <button class="layui-btn" id="addQues">Add a question</button>
     <button class="layui-btn" id="removeQues">Remove a question</button>
-    <button class="layui-btn" id="submit">Save questionnaire</button>
+    <button class="layui-btn" id="submit">Save quiz</button>
 </div>
 
 <!--Dom Items-->

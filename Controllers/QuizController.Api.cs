@@ -21,7 +21,7 @@ namespace web.Api.Controllers
         {
         }
 
-        [HttpPost("questionnaire")]
+        [HttpPost("quiz")]
         public ActionResult SaveQuestionnire(int quesId, string quesName, string quesIntro, string quesJson)
         {
             var surveyObj = new SurveyEntity();
@@ -56,7 +56,7 @@ namespace web.Api.Controllers
             return JsonReturn.ReturnSuccess();
         }
 
-        [HttpGet("questionnaire")]
+        [HttpGet("quiz")]
         public ActionResult GetQuestionnire(int surveyID)
         {
             return JsonReturn.ReturnSuccess(dbc.Survey.Find(surveyID));
@@ -73,8 +73,8 @@ namespace web.Api.Controllers
             return JsonReturn.ReturnSuccess(result);
         }
 
-        [HttpGet("questionnaire_list")]
-        public ActionResult GetQuestionnaireList()
+        [HttpGet("quiz_list")]
+        public ActionResult GetQuizList()
         {
             var surveyList = from al in dbc.Survey where al.SurveyIsDeleted == false select al;
             return JsonReturn.ReturnSuccess(surveyList);

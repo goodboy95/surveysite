@@ -84,7 +84,7 @@ window.onload = function () {
             quesRoute.pop();
             RenderQuestion();
         });
-        $.get("/quizApi/questionnaire", {surveyID: surveyID}, function(resp, stat){
+        $.get("/quizApi/quiz", {surveyID: surveyID}, function(resp, stat){
             surveyBody = JSON.parse(resp.data.surveyBody);
             RenderQuestion();
         });
