@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 using Domain.Entity;
+using Newtonsoft.Json;
 
 namespace web.Api.Controllers
 {
@@ -85,8 +86,8 @@ namespace web.Api.Controllers
             var surveyList = from sl in dbc.Survey where sl.SurveyIsDeleted == false select sl;
             var answerList = from al in dbc.Answer where al.AnswerIsDeleted == false 
             join ql in surveyList on al.SurveyID equals ql.SurveyID
-            select new JObject(){ ["AnswerID"] = al.AnswerID, ["AnswerBody"] = al.AnswerBody, ["AnswerIP"] = al.AnswerIP,
-                ["SurveyName"] = ql.SurveyName, ["SurveyBody"] = ql.SurveyBody };
+            select new { AnswerID = al.AnswerID, AnswerBody = al.AnswerBody, AnswerIP = al.AnswerIP,
+                SurveyName = ql.SurveyName, SurveyBody = ql.SurveyBody };
             return JsonReturn.ReturnSuccess(answerList);
         }
     }
