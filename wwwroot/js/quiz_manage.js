@@ -1,12 +1,12 @@
 ﻿window.onload = function () {
     headerMenu();
     $.get("/quizApi/quiz_list", {}, function (resp, stat) {
-        var surveyList = resp.data;
-        for (var i = 0; i < surveyList.length; i++) {
+        var quizList = resp.data;
+        for (var i = 0; i < quizList.length; i++) {
             var quizRow = $("#quizRow").clone(true);
-            quizRow.find(".quesID").html(surveyList[i].surveyID);
-            quizRow.find(".quesName").html(surveyList[i].surveyName);
-            quizRow.find(".quesURL").html(`http://www.seekerhut.com/quiz/quizpage/${surveyList[i].surveyID}`);
+            quizRow.find(".quesID").html(quizList[i].quizID);
+            quizRow.find(".quesName").html(quizList[i].quizName);
+            quizRow.find(".quesURL").html(`http://www.seekerhut.com/quiz/quizpage/${quizList[i].quizID}`);
             $("#quizList").append(quizRow);
         }
     });

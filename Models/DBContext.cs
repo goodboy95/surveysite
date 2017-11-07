@@ -11,13 +11,13 @@ namespace Dao
         {
         }
         public DbSet<UserEntity> User { get; set; }
-        public DbSet<SurveyEntity> Survey { get; set; }
+        public DbSet<QuizEntity> Quiz { get; set; }
         public DbSet<AnswerEntity> Answer { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.MapUser();
-            modelBuilder.MapSurvey();
+            modelBuilder.MapQuiz();
             modelBuilder.MapAnswer();
             base.OnModelCreating(modelBuilder);
         }

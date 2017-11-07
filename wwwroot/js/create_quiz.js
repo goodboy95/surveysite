@@ -148,11 +148,11 @@ window.onload = function () {
     headerMenu();
     var editQuesgroupId = parseInt($("#editid").val());
     if (editQuesgroupId > 0) {
-        $.get("/quizApi/quiz", { surveyID: editQuesgroupId }, function(resp, stat){
+        $.get("/quizApi/quiz", { quizID: editQuesgroupId }, function(resp, stat){
             if (resp.code == 0) {
-                var title = resp.data.surveyName;
-                var intro = resp.data.surveyIntro;
-                questionList = JSON.parse(resp.data.surveyBody);
+                var title = resp.data.quizName;
+                var intro = resp.data.quizIntro;
+                questionList = JSON.parse(resp.data.quizBody);
                 for (var i = 0; i < questionList.length; i++) {
                     curQuesNum = i;
                     AddQuesRowToList(questionList[i]);
@@ -196,7 +196,7 @@ window.onload = function () {
     };
 
     document.getElementById("submit").onclick = function(){
-        var quizTitle = $("#surveyName").val();
+        var quizTitle = $("#quizName").val();
         $.post("/quizApi/quiz", { quesName: quizTitle, quesJson: JSON.stringify(questionList) }, function (resp, stat) {
             alert("You've successfully created a quiz template!");
             window.location.href = "/";

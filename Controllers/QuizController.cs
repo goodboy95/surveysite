@@ -22,7 +22,7 @@ namespace simpleproj.Controllers
         }
         public IActionResult QuizPage([FromRoute]int id)
         {
-            ViewBag.surveyID = id;
+            ViewBag.quizID = id;
             return View();
         }
     }

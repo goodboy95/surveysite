@@ -1,8 +1,8 @@
-<link rel="stylesheet" href="~/css/survey.css" />
-<script src="~/js/survey.js"></script>
+<link rel="stylesheet" href="~/css/quiz.css" />
+<script src="~/js/quiz.js"></script>
 <div hidden>
     <input type="radio" id="optAnswer" name="answer" value="" title="">
-    <input id="surveyID" value="@(ViewBag.surveyID)" hidden>
+    <input id="quizID" value="@(ViewBag.quizID)" hidden>
 </div>
 
 <div>
@@ -16,7 +16,7 @@
         <div id="picBlock">
             <img src="@(ViewBag.PicPath)" />
         </div>
-        <button class="layui-btn" id="startSurvey">Start</button>
+        <button class="layui-btn" id="startQuiz">Start</button>
     </div>
     <label class="layui-form-label ques-title" style="width:auto">Question: </label>
     <br />

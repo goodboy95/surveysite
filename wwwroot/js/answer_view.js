@@ -15,7 +15,7 @@ window.onload = function () {
                 content: $("#answerText"),
                 success: function (dom, index) {
                     $("#answerText").empty();
-                    var quesArr = JSON.parse(answerList[answerID].surveyBody);
+                    var quesArr = JSON.parse(answerList[answerID].quizBody);
                     var answerArr = JSON.parse(answerList[answerID].answerBody);
                     for (var i = 0; i < answerArr.length; i++) {
                         var answerElem = $("#answerElem").clone(true);
@@ -48,7 +48,7 @@ function RenderAnswerList() {
         for (var i = 0; i < answerList.length; i++) {
             var answerRow = $("#ansRow").clone(true);
             answerRow.find(".ansID").html(answerList[i].answerID);
-            answerRow.find(".quizName").html(answerList[i].surveyName);
+            answerRow.find(".quizName").html(answerList[i].quizName);
             answerRow.find(".ansCreator").html(answerList[i].answerIP);
             $("#answerList").append(answerRow);
         }

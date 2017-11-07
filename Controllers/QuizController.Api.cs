@@ -24,32 +24,32 @@ namespace web.Api.Controllers
         [HttpPost("quiz")]
         public ActionResult SaveQuestionnire(int quesId, string quesName, string quesIntro, string quesJson)
         {
-            var surveyObj = new SurveyEntity();
+            var quizObj = new QuizEntity();
             int.TryParse(Request.Cookies["id"], out int creator);
-            surveyObj.SurveyBody = quesJson;
-            surveyObj.SurveyName = quesName;
-            surveyObj.SurveyIntro = quesIntro;
-            surveyObj.SurveyCreator = creator;
-            surveyObj.SurveyLikes = new List<string>();
-            dbc.Survey.Add(surveyObj);
+            quizObj.QuizBody = quesJson;
+            quizObj.QuizName = quesName;
+            quizObj.QuizIntro = quesIntro;
+            quizObj.QuizCreator = creator;
+            quizObj.QuizLikes = new List<string>();
+            dbc.Quiz.Add(quizObj);
             if (quesId > 0)
             {
-                var prevQues = dbc.Survey.Find(quesId);
-                prevQues.SurveyIsDeleted = true;
-                dbc.Survey.Add(prevQues);
+                var prevQues = dbc.Quiz.Find(quesId);
+                prevQues.QuizIsDeleted = true;
+                dbc.Quiz.Add(prevQues);
             }
             dbc.SaveChanges();
             return JsonReturn.ReturnSuccess();
         }
 
         [HttpPost("answer")]
-        public ActionResult SaveAnswer(int surveyID, string answer)
+        public ActionResult SaveAnswer(int quizID, string answer)
         {
             var answerObj = new AnswerEntity();
             int.TryParse(Request.Cookies["id"], out int creator);  //暂时没有用户名
             answerObj.AnswerCreator = creator;
             answerObj.AnswerIP = new HttpParser(HttpContext).GetIPAddr();
-            answerObj.SurveyID = surveyID;
+            answerObj.QuizID = quizID;
             answerObj.AnswerBody = answer;
             dbc.Answer.Add(answerObj);
             dbc.SaveChanges();
@@ -57,37 +57,37 @@ namespace web.Api.Controllers
         }
 
         [HttpGet("quiz")]
-        public ActionResult GetQuestionnire(int surveyID)
+        public ActionResult GetQuestionnire(int quizID)
         {
-            return JsonReturn.ReturnSuccess(dbc.Survey.Find(surveyID));
+            return JsonReturn.ReturnSuccess(dbc.Quiz.Find(quizID));
         }
         
         [HttpGet("answer")]
         public ActionResult GetAnswer(int answerID)
         {
             var answerEntity = dbc.Answer.Find(answerID);
-            var relSurveyID = answerEntity.SurveyID;
+            var relQuizID = answerEntity.QuizID;
             var answerBody = answerEntity.AnswerBody;
-            var surveyBody = dbc.Survey.Find(relSurveyID).SurveyBody;
-            var result = new JObject(){ ["surveyBody"] = surveyBody, ["answerBody"] = answerBody };
+            var quizBody = dbc.Quiz.Find(relQuizID).QuizBody;
+            var result = new JObject(){ ["quizBody"] = quizBody, ["answerBody"] = answerBody };
             return JsonReturn.ReturnSuccess(result);
         }
 
         [HttpGet("quiz_list")]
         public ActionResult GetQuizList()
         {
-            var surveyList = from al in dbc.Survey where al.SurveyIsDeleted == false select al;
-            return JsonReturn.ReturnSuccess(surveyList);
+            var quizList = from al in dbc.Quiz where al.QuizIsDeleted == false select al;
+            return JsonReturn.ReturnSuccess(quizList);
         }
         
         [HttpGet("answer_list")]
         public ActionResult GetAnswerList()
         {
-            var surveyList = from sl in dbc.Survey where sl.SurveyIsDeleted == false select sl;
+            var quizList = from sl in dbc.Quiz where sl.QuizIsDeleted == false select sl;
             var answerList = from al in dbc.Answer where al.AnswerIsDeleted == false 
-            join ql in surveyList on al.SurveyID equals ql.SurveyID
+            join ql in quizList on al.QuizID equals ql.QuizID
             select new { AnswerID = al.AnswerID, AnswerBody = al.AnswerBody, AnswerIP = al.AnswerIP,
-                SurveyName = ql.SurveyName, SurveyBody = ql.SurveyBody };
+                QuizName = ql.QuizName, QuizBody = ql.QuizBody };
             return JsonReturn.ReturnSuccess(answerList);
         }
     }

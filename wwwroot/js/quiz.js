@@ -1,17 +1,17 @@
 var form;
 var currentQues = 0;
 var quesCount = 0;
-var surveyBody;
+var quizBody;
 var quesRoute = new Array();
 var answerArr = new Array();
 
-function OnNextClick(surveyID, data) {
+function OnNextClick(quizID, data) {
     var nextQues;
     var ansObj = new Object();
     var quesType = data.quesType;
-    var optionsObj = surveyBody[currentQues].options;
+    var optionsObj = quizBody[currentQues].options;
     if (quesType === "single") {
-        nextQues = parseInt(surveyBody[currentQues].nextQues);
+        nextQues = parseInt(quizBody[currentQues].nextQues);
     }
     else {
         var opt = parseInt(data.field.answer);
@@ -26,7 +26,7 @@ function OnNextClick(surveyID, data) {
         RenderQuestion();
     }
     else {
-        $.post("/quizApi/answer", {surveyID: surveyID, answer: JSON.stringify(answerArr)}, function(resp, stat){
+        $.post("/quizApi/answer", {quizID: quizID, answer: JSON.stringify(answerArr)}, function(resp, stat){
             alert("You have successfully finished this quiz!");
             window.location.href = "/";
         });
@@ -40,7 +40,7 @@ function RenderQuestion() {
     $("#textQuesTitle").html("");
     $("#optionArea").html("");
     $("#answerArea").val("");
-    var ques = surveyBody[currentQues];
+    var ques = quizBody[currentQues];
     var quesName = ques.quesName;
     var optionArr = ques.options;
     $(".ques-title").html(`Question: ${quesName}`);
@@ -66,16 +66,16 @@ function RenderQuestion() {
 
 window.onload = function () {
     headerMenu();
-    var surveyID = document.getElementById("surveyID").value;
+    var quizID = document.getElementById("quizID").value;
     layui.use("form", function(){
         form = layui.form;
         form.on("submit(optNext)", function(data){
             data.quesType = "multiple";
-            OnNextClick(surveyID, data);
+            OnNextClick(quizID, data);
         });
         form.on("submit(textNext)", function(data){
             data.quesType = "single";
-            OnNextClick(surveyID, data);
+            OnNextClick(quizID, data);
         });
         form.on("submit(prev)", function(data) {
             currentQues = quesRoute[quesCount-1];
@@ -84,12 +84,12 @@ window.onload = function () {
             quesRoute.pop();
             RenderQuestion();
         });
-        $.get("/quizApi/quiz", {surveyID: surveyID}, function(resp, stat){
-            surveyBody = JSON.parse(resp.data.surveyBody);
+        $.get("/quizApi/quiz", {quizID: quizID}, function(resp, stat){
+            quizBody = JSON.parse(resp.data.quizBody);
             RenderQuestion();
         });
     });
-    document.getElementById("startSurvey").onclick = function() {
+    document.getElementById("startQuiz").onclick = function() {
         $("#intro").hide();
         RenderQuestion();
     }
