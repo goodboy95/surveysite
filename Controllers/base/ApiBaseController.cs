@@ -9,6 +9,8 @@ using Utils;
 using Domain.Entity;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc.Filters;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace web.Api.Controllers
 {
@@ -19,7 +21,8 @@ namespace web.Api.Controllers
         }
         protected override void LoginFail(ActionExecutingContext context)
         {
-            context.Result = JsonReturn.ReturnFail(-3, "你没有权限访问此模块！");
+            context.Result = JsonReturn.ReturnFail(-3, "Illegal API access!");
         }
+        
     }
 }

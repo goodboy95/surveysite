@@ -21,29 +21,43 @@ namespace web.Api.Controllers
         {
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="quizId"></param>
+        /// <param name="quizName"></param>
+        /// <param name="quizIntro"></param>
+        /// <param name="quizJson"></param>
+        /// <returns></returns>
         [HttpPost("quiz")]
-        public ActionResult SaveQuestionnire(int quesId, string quesName, string quesIntro, string quesJson)
+        public ActionResult SaveQuiz([FromForm]int quizId, [FromForm]string quizName, [FromForm]string quizIntro, [FromForm]string quizJson)
         {
             var quizObj = new QuizEntity();
             int.TryParse(Request.Cookies["id"], out int creator);
-            quizObj.QuizBody = quesJson;
-            quizObj.QuizName = quesName;
-            quizObj.QuizIntro = quesIntro;
+            quizObj.QuizBody = quizJson;
+            quizObj.QuizName = quizName;
+            quizObj.QuizIntro = quizIntro;
             quizObj.QuizCreator = creator;
             quizObj.QuizLikes = new List<string>();
             dbc.Quiz.Add(quizObj);
-            if (quesId > 0)
+            if (quizId > 0)
             {
-                var prevQues = dbc.Quiz.Find(quesId);
+                var prevQues = dbc.Quiz.Find(quizId);
                 prevQues.QuizIsDeleted = true;
-                dbc.Quiz.Add(prevQues);
+                dbc.Quiz.Update(prevQues);
             }
             dbc.SaveChanges();
             return JsonReturn.ReturnSuccess();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="quizID"></param>
+        /// <param name="answer"></param>
+        /// <returns></returns>
         [HttpPost("answer")]
-        public ActionResult SaveAnswer(int quizID, string answer)
+        public ActionResult SaveAnswer([FromForm]int quizID, [FromForm]string answer)
         {
             var answerObj = new AnswerEntity();
             int.TryParse(Request.Cookies["id"], out int creator);  //暂时没有用户名
@@ -56,14 +70,24 @@ namespace web.Api.Controllers
             return JsonReturn.ReturnSuccess();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="quizID"></param>
+        /// <returns></returns>
         [HttpGet("quiz")]
-        public ActionResult GetQuestionnire(int quizID)
+        public ActionResult GetQuiz([FromQuery]int quizID)
         {
             return JsonReturn.ReturnSuccess(dbc.Quiz.Find(quizID));
         }
         
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="answerID"></param>
+        /// <returns></returns>
         [HttpGet("answer")]
-        public ActionResult GetAnswer(int answerID)
+        public ActionResult GetAnswer([FromQuery]int answerID)
         {
             var answerEntity = dbc.Answer.Find(answerID);
             var relQuizID = answerEntity.QuizID;
@@ -73,6 +97,10 @@ namespace web.Api.Controllers
             return JsonReturn.ReturnSuccess(result);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("quiz_list")]
         public ActionResult GetQuizList()
         {
@@ -80,6 +108,10 @@ namespace web.Api.Controllers
             return JsonReturn.ReturnSuccess(quizList);
         }
         
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("answer_list")]
         public ActionResult GetAnswerList()
         {

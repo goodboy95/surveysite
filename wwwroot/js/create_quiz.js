@@ -3,6 +3,8 @@ var optionNum = 1;
 var curQuesNum = 0;
 var questionList = new Array();
 var form = null;
+var layedit = null;
+var layeditIndex = null;
 var layerIndex = null;
 var answerTypeArr = new Array("Text answer", "", "Multiple choice");
 var isAddQues = false;
@@ -147,19 +149,26 @@ function SaveQues(data) {
 window.onload = function () {
     headerMenu();
     var editQuesgroupId = parseInt($("#editid").val());
+    var quizIntro = null;
     if (editQuesgroupId > 0) {
         $.get("/quizApi/quiz", { quizID: editQuesgroupId }, function(resp, stat){
             if (resp.code == 0) {
-                var title = resp.data.quizName;
-                var intro = resp.data.quizIntro;
+                $("#quizName").val(resp.data.quizName);
+                quizIntro = resp.data.quizIntro;
                 questionList = JSON.parse(resp.data.quizBody);
                 for (var i = 0; i < questionList.length; i++) {
                     curQuesNum = i;
                     AddQuesRowToList(questionList[i]);
                 }
+                layui.use('layedit', function(){
+                    layedit = layui.layedit;
+                    layeditIndex = layedit.build('introContext');
+                    layedit.setContent(layeditIndex, quizIntro);
+                });
             }
         });
     }
+    
     layui.use("form", function(){
         form = layui.form;
         form.on("select(answerType)", function(data) {
@@ -180,11 +189,6 @@ window.onload = function () {
         });
     });
 
-    layui.use('layedit', function(){
-        var layedit = layui.layedit;
-        layedit.build('introContext');
-    });
-
     document.getElementById("addQues").onclick = ShowAddQuestionDialog;
 
     document.getElementById("removeQues").onclick = function(){
@@ -197,7 +201,11 @@ window.onload = function () {
 
     document.getElementById("submit").onclick = function(){
         var quizTitle = $("#quizName").val();
-        $.post("/quizApi/quiz", { quesName: quizTitle, quesJson: JSON.stringify(questionList) }, function (resp, stat) {
+        $.post("/quizApi/quiz", { 
+            quizId: parseInt($("#editid").val()),
+            quizName: quizTitle, 
+            quizIntro: layedit.getContent(layeditIndex),
+            quizJson: JSON.stringify(questionList) }, function (resp, stat) {
             alert("You've successfully created a quiz template!");
             window.location.href = "/";
         });

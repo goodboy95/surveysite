@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using System.Text;
 using Domain.Entity;
 using Microsoft.AspNetCore.Http;
+using static Utils.UtilClass;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -26,22 +27,17 @@ namespace simpleproj.Controllers
         protected override void LoginFail(ActionExecutingContext context)
         {
         }
-        public string HashStr(string src)
-        {
-            var sha2 = SHA256.Create();
-            byte[] hashByte = sha2.ComputeHash(Encoding.Unicode.GetBytes(src));
-            string passHash = "";
-            for (int i = 0; i < hashByte.Length; i++)
-            {
-                passHash += hashByte[i].ToString("x2");
-            }
-            return passHash;
-        }
         
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         [HttpPost("register")]
-        public JsonReturn Register(string username, string password)
+        public JsonReturn Register([FromForm]string username, [FromForm]string password)
         {
-            username = HTMLEntity.XSSConvert(username);
+            username = XSSConvert(username);
             string salt = HashStr(username + DateTime.Now.ToString());
             string passHash = HashStr(salt + password + salt + username);
             string ip = new HttpParser(HttpContext).GetIPAddr();
@@ -57,10 +53,16 @@ namespace simpleproj.Controllers
             return JsonReturn.ReturnSuccess();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         [HttpPost("login")]
-        public JsonReturn Login(string username, string password)
+        public JsonReturn Login([FromForm]string username, [FromForm]string password)
         {
-            username = HTMLEntity.XSSConvert(username);
+            username = XSSConvert(username);
             var domain = new HttpParser(HttpContext).GetDomain();
             UserEntity u = (from lu in dbc.User where lu.Name == username select lu).FirstOrDefault();
             if (u == null) { return JsonReturn.ReturnFail(-1, "Wrong username or password！"); }

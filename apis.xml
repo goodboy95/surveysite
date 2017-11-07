@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>simpleproj</name>
+    </assembly>
+    <members>
+        <member name="M:web.Api.Controllers.QuizApiController.SaveQuiz(System.Int32,System.String,System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="quizId"></param>
+            <param name="quizName"></param>
+            <param name="quizIntro"></param>
+            <param name="quizJson"></param>
+            <returns></returns>
+        </member>
+        <member name="M:web.Api.Controllers.QuizApiController.SaveAnswer(System.Int32,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="quizID"></param>
+            <param name="answer"></param>
+            <returns></returns>
+        </member>
+        <member name="M:web.Api.Controllers.QuizApiController.GetQuiz(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="quizID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:web.Api.Controllers.QuizApiController.GetAnswer(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="answerID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:web.Api.Controllers.QuizApiController.GetQuizList">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:web.Api.Controllers.QuizApiController.GetAnswerList">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:simpleproj.Controllers.HomeApiController.Register(System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="username"></param>
+            <param name="password"></param>
+            <returns></returns>
+        </member>
+        <member name="M:simpleproj.Controllers.HomeApiController.Login(System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="username"></param>
+            <param name="password"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
