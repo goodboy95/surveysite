@@ -49,7 +49,7 @@ function headerMenu() {
         window.location.href = "/quiz/createquiz";
         return false;
     };
-    document.getElementById("template-manage").onclick = function () {
+    document.getElementById("quiz-manage").onclick = function () {
         window.location.href = "/home/quizmanage";
         return false;
     };

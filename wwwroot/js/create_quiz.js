@@ -168,7 +168,13 @@ window.onload = function () {
             }
         });
     }
-    
+    else {
+        layui.use('layedit', function(){
+            layedit = layui.layedit;
+            layeditIndex = layedit.build('introContext');
+        });
+    }
+
     layui.use("form", function(){
         form = layui.form;
         form.on("select(answerType)", function(data) {
@@ -206,7 +212,7 @@ window.onload = function () {
             quizName: quizTitle, 
             quizIntro: layedit.getContent(layeditIndex),
             quizJson: JSON.stringify(questionList) }, function (resp, stat) {
-            alert("You've successfully created a quiz template!");
+            alert("You've successfully created a quiz!");
             window.location.href = "/";
         });
     };
