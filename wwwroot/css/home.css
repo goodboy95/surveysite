@@ -1,6 +1,6 @@
 ﻿.login-menu {
     display: inline;
-    margin-right: 20px;
+    margin-right: 0px;
 }
 
 .menu-text {
@@ -10,6 +10,10 @@
 .right-menu {
     width: 80%;
     text-align: right;
+}
+
+.func-menu {
+    left: 10%;
 }
 
 .menu {

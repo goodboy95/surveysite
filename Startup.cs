@@ -10,6 +10,8 @@ using Dao;
 using Utils;
 using Microsoft.EntityFrameworkCore;
 using Swashbuckle.AspNetCore.Swagger;
+using System.IO;
+using Microsoft.Extensions.FileProviders;
 
 namespace simpleproj
 {
@@ -53,6 +55,17 @@ namespace simpleproj
             }
 
             app.UseStaticFiles();
+            //如/file对应的文件夹不存在，自动创建文件夹
+            if (!Directory.Exists(Configuration.GetSection("VirtualPath").GetValue<string>("File")))
+            {
+                Directory.CreateDirectory(Configuration.GetSection("VirtualPath").GetValue<string>("File"));
+            }
+            app.UseFileServer(new FileServerOptions()
+            {
+                FileProvider = new PhysicalFileProvider(Configuration.GetSection("VirtualPath").GetValue<string>("File")),
+                RequestPath = "/file",
+                EnableDirectoryBrowsing = false
+            });
             Initialize.DbInit(dbc);
             app.UseMvc(routes =>
             {

@@ -4,6 +4,12 @@
         <name>simpleproj</name>
     </assembly>
     <members>
+        <member name="M:web.Api.Controllers.QuizApiController.SaveQuizPic">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:web.Api.Controllers.QuizApiController.SaveQuiz(System.Int32,System.String,System.String,System.String)">
             <summary>
             

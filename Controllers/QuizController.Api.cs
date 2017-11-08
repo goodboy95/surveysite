@@ -10,15 +10,49 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 using Domain.Entity;
 using Newtonsoft.Json;
+using System.Net.Http.Headers;
+using System.IO;
+using System.Web;
 
 namespace web.Api.Controllers
 {
     [Route("[controller]")]
     public class QuizApiController : ApiBaseController
     {
-
         public QuizApiController(DwDbContext dbc, ILoggerFactory logFac, IServiceProvider svp) : base(dbc, logFac, svp)
         {
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+
+        /// <returns></returns>
+        [HttpPost("quiz_pic")]
+        public ActionResult SaveQuizPic()
+        {
+            const string picBasePath = "/home/duoyi/file/pics";
+            //if (!Directory.Exists(picBasePath)) { Directory.CreateDirectory(picBasePath); }
+            var file = Request.Form.Files.FirstOrDefault();
+            if (file == null) { return JsonReturn.ReturnFail("File is not exist!"); }
+            var fileNameSplit = file.FileName.Split(".");
+            var splitCount = fileNameSplit.Count();
+            var fileExt = fileNameSplit[splitCount - 1];
+            var fileNameBody = file.FileName.Replace($".{fileExt}", "");
+            var newBody = fileNameBody;
+            int duplicate = 0;
+            string filePath = $"{picBasePath}/{newBody}.{fileExt}";
+            if (System.IO.File.Exists(filePath))
+            {
+                newBody = $"{fileNameBody}{duplicate}";
+                filePath = $"{picBasePath}/{newBody}.{fileExt}";
+                duplicate++;
+            }
+            FileStream fs = System.IO.File.Create(filePath);
+            file.CopyTo(fs);
+            fs.Flush();
+            fs.Dispose();
+            return JsonReturn.ReturnSuccess(data: new JObject(){ ["src"] = $"/file/pics/{newBody}.{fileExt}", ["title"] = "uploadpic" });
         }
 
         /// <summary>

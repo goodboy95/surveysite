@@ -19,13 +19,13 @@
     </div>
 
     <div id="logined-menu" class="layui-header menu" hidden>
-        <ul class="layui-nav" lay-filter="">
+        <ul class="layui-nav func-menu" lay-filter="">
             <li class="layui-nav-item login-menu"><a href="" id="create">Create a quiz</a></li>
             <li class="layui-nav-item login-menu"><a href="" id="quiz-manage">Quiz list</a></li>
             <li class="layui-nav-item login-menu"><a href="" id="answer-manage">View answers</a></li>
         </ul>
         <div id="userdata">
-            <p>Welcome back, @ViewBag.Username&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="" id="logout">Sign out</a></p>
+            <p>Welcome back, @ViewBag.Username&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/home/logout" id="logout">Sign out</a></p>
         </div>
     </div>
 
@@ -36,13 +36,13 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">Username：</label>
                 <div class="layui-input-block">
-                    <input type="text" name="username" placeholder="" autocomplete="off" class="layui-input">
+                    <input type="text" name="username" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">Password：</label>
                 <div class="layui-input-block">
-                    <input type="text" name="password" placeholder="" autocomplete="off" class="layui-input">
+                    <input type="password" name="password" class="layui-input">
                 </div>
             </div>
             <button lay-submit class="layui-btn" id="reg-submit" lay-filter="reg">Register</button>
@@ -54,13 +54,13 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">Username：</label>
                 <div class="layui-input-block">
-                    <input type="text" name="username" placeholder="" autocomplete="off" class="layui-input">
+                    <input type="text" name="username" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">Password：</label>
                 <div class="layui-input-block">
-                    <input type="text" name="password" placeholder="" autocomplete="off" class="layui-input">
+                    <input type="password" name="password" class="layui-input">
                 </div>
             </div>
             <button lay-submit class="layui-btn" id="login-submit" lay-filter="login">Log in</button>

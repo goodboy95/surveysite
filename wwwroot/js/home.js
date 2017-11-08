@@ -73,8 +73,4 @@ function headerMenu() {
         });
         return false;
     };
-    document.getElementById("logout").onclick = function () {
-        location.href = "/home/logout";
-        return false;
-    };
 }

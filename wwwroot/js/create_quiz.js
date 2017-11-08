@@ -125,7 +125,7 @@ function SaveQues(data) {
             option.text = optionJq.find("#optionText").val();
             option.rel = optionJq.find("#relatedQues").val();
             if (isNaN(parseInt(option.rel))) {
-                alert("Relating-question number must be a number!");
+                alert("Next question No. must be a number!");
                 return;
             }
             ques.options.push(option);
@@ -133,6 +133,10 @@ function SaveQues(data) {
     }
     else {
         ques.nextQues = data.field.nextQues;
+        if (isNaN(parseInt(ques.nextQues))) {
+            alert("Next question No. must be a number!");
+            return;
+        }
     }
     questionList[curQuesNum] = ques;
     if (isAddQues === true) {
@@ -150,6 +154,15 @@ window.onload = function () {
     headerMenu();
     var editQuesgroupId = parseInt($("#editid").val());
     var quizIntro = null;
+    layui.use('layedit', function(){
+        layedit = layui.layedit;
+        layedit.set({
+            uploadImage: {
+              url: '/quizApi/quiz_pic'
+            }
+        });
+        layeditIndex = layedit.build('introContext');
+    });
     if (editQuesgroupId > 0) {
         $.get("/quizApi/quiz", { quizID: editQuesgroupId }, function(resp, stat){
             if (resp.code == 0) {
@@ -160,18 +173,8 @@ window.onload = function () {
                     curQuesNum = i;
                     AddQuesRowToList(questionList[i]);
                 }
-                layui.use('layedit', function(){
-                    layedit = layui.layedit;
-                    layeditIndex = layedit.build('introContext');
-                    layedit.setContent(layeditIndex, quizIntro);
-                });
+                layedit.setContent(layeditIndex, quizIntro);
             }
-        });
-    }
-    else {
-        layui.use('layedit', function(){
-            layedit = layui.layedit;
-            layeditIndex = layedit.build('introContext');
         });
     }
 

@@ -43,6 +43,12 @@ function RenderQuestion() {
     var ques = quizBody[currentQues];
     var quesName = ques.quesName;
     var optionArr = ques.options;
+    if (currentQues === 0) {
+        $("#prev").hide();
+    }
+    else {
+        $("#prev").show();
+    }
     $(".ques-title").html(`Question: ${quesName}`);
     if (parseInt(ques.answerType) === 2) {
         $("#optionQues").show();
@@ -65,7 +71,6 @@ function RenderQuestion() {
 }
 
 window.onload = function () {
-    headerMenu();
     var quizID = document.getElementById("quizID").value;
     layui.use("form", function(){
         form = layui.form;
