@@ -150,23 +150,21 @@ function SaveQues(data) {
     CleanQuesArea();
 };
 
-function useLayedit() {
-    
-}
-
 window.onload = async function () {
     headerMenu();
     var editQuesgroupId = parseInt($("#editid").val());
     var quizIntro = null;
     await layui.use('layedit', function(){
-        layedit = layui.layedit;
-        layedit.set({
-            uploadImage: {
-              url: '/quizApi/quiz_pic'
-            }
+        return new Promise((resolve, reject) => {
+            layedit = layui.layedit;
+            layedit.set({
+                uploadImage: {
+                  url: '/quizApi/quiz_pic'
+                }
+            });
+            layeditIndex = layedit.build('introContext');
+            resolve();
         });
-        layeditIndex = layedit.build('introContext');
-        return new Promise((resolve, reject) => resolve());
     });
     if (editQuesgroupId > 0) {
         $.get("/quizApi/quiz", { quizID: editQuesgroupId }, function(resp, stat){

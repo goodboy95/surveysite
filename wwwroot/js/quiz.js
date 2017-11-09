@@ -49,7 +49,8 @@ function RenderQuestion() {
     else {
         $("#prev").show();
     }
-    $(".ques-title").html(`Question ${quesCount+1}: ${quesName}`);
+    $(".ques-number").html(`Question ${quesCount+1}`);
+    $(".ques-text").html(`${quesName}`);
     if (parseInt(ques.answerType) === 2) {
         $("#optionQues").show();
         $("#textQues").hide();
@@ -89,10 +90,6 @@ window.onload = function () {
             quesRoute.pop();
             RenderQuestion();
         });
-        // $.get("/quizApi/quiz", {quizID: quizID}, function(resp, stat){
-        //     quizBody = JSON.parse(resp.data.quizBody);
-        //     RenderQuestion();
-        // });
     });
     document.getElementById("startQuiz").onclick = function() {
         $("#intro").hide();

@@ -8,7 +8,7 @@
     <input id="quizID" value="@(ViewBag.quizID)" hidden>
 </div>
 
-<div>
+<div id="quizbody">
     <div id="intro">
         <div id="titleBlock">
             @ViewBag.Title
@@ -16,38 +16,31 @@
         <div id="contextBlock">
             <p>@Html.Raw(ViewBag.Intro)</p>
         </div>
-        <div id="picBlock">
-            <img src="@(ViewBag.PicPath)" />
-        </div>
-        <button class="layui-btn" id="startQuiz">Start</button>
+        <button class="layui-btn layui-btn-big" id="startQuiz">Start</button>
     </div>
-    <label class="layui-form-label ques-title" style="width:auto"></label>
+
+    <h1 class="ques-number"></h1>
+    <p class="ques-text"></p>
     <br />
     <div id="optionQues" class="layui-form" hidden>
         <div class="layui-form-item">
-            <div class="layui-input-block" id="optionArea">
+            <div id="optionArea">
 
             </div>
         </div>
         <div class="layui-form-item">
-            <div class="layui-input-block">
                 <button class="layui-btn" lay-filter="prev" id="prev" lay-submit>Prev</button>
                 <button class="layui-btn" lay-filter="optNext" lay-submit>Next</button>
-            </div>
         </div>
     </div>
 
     <div id="textQues" class="layui-form" hidden>
         <div class="layui-form-item">
-            <div class="layui-input-block">
-                <textarea id="answerArea" name="answer" placeholder="Input..." class="layui-textarea"></textarea>
-            </div>
+            <textarea id="answerArea" name="answer" placeholder="Input..." class="layui-textarea"></textarea>
         </div>
         <div class="layui-form-item">
-            <div class="layui-input-block">
                 <button class="layui-btn" lay-filter="prev" lay-submit>Prev</button>
                 <button class="layui-btn" lay-filter="textNext" lay-submit>Next</button>
-            </div>
         </div>
     </div>
 </div>
