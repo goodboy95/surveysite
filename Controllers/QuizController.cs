@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using web.Controllers;
 using Dao;
 using Microsoft.Extensions.Logging;
+using web.Api.Controllers;
+using Utils;
+using Domain.Entity;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,7 +16,11 @@ namespace simpleproj.Controllers
 {
     public class QuizController : ViewBaseController
     {
-        public QuizController(DwDbContext dbc, ILoggerFactory logFac, IServiceProvider svp) : base(dbc, logFac, svp) { }
+        private readonly QuizApiController qac;
+        public QuizController(DwDbContext dbc, ILoggerFactory logFac, IServiceProvider svp) : base(dbc, logFac, svp) 
+        { 
+            qac = new QuizApiController(dbc, logFac, svp);
+        }
 
         public IActionResult CreateQuiz([FromRoute]int id)
         {
@@ -23,6 +30,10 @@ namespace simpleproj.Controllers
         public IActionResult QuizPage([FromRoute]int id)
         {
             ViewBag.quizID = id;
+            var quizResult = (JsonReturn)(qac.GetQuiz(id));
+            var quizEntity = (QuizEntity)(quizResult.Data);
+            ViewBag.Title = quizEntity.QuizName;
+            ViewBag.Intro = quizEntity.QuizIntro;
             return View();
         }
     }

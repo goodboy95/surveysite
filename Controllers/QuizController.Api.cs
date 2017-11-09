@@ -26,13 +26,12 @@ namespace web.Api.Controllers
         /// <summary>
         /// 
         /// </summary>
-
         /// <returns></returns>
         [HttpPost("quiz_pic")]
         public ActionResult SaveQuizPic()
         {
             const string picBasePath = "/home/duoyi/file/pics";
-            //if (!Directory.Exists(picBasePath)) { Directory.CreateDirectory(picBasePath); }
+            if (!Directory.Exists(picBasePath)) { Directory.CreateDirectory(picBasePath); }
             var file = Request.Form.Files.FirstOrDefault();
             if (file == null) { return JsonReturn.ReturnFail("File is not exist!"); }
             var fileNameSplit = file.FileName.Split(".");

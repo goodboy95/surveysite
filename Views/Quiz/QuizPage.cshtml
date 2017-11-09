@@ -9,19 +9,19 @@
 </div>
 
 <div>
-    <div id="intro" hidden>
+    <div id="intro">
         <div id="titleBlock">
             @ViewBag.Title
         </div>
         <div id="contextBlock">
-            <p>@ViewBag.Intro</p>
+            <p>@Html.Raw(ViewBag.Intro)</p>
         </div>
         <div id="picBlock">
             <img src="@(ViewBag.PicPath)" />
         </div>
         <button class="layui-btn" id="startQuiz">Start</button>
     </div>
-    <label class="layui-form-label ques-title" style="width:auto">Question: </label>
+    <label class="layui-form-label ques-title" style="width:auto"></label>
     <br />
     <div id="optionQues" class="layui-form" hidden>
         <div class="layui-form-item">
