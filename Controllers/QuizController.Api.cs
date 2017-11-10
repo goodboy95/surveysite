@@ -148,8 +148,8 @@ namespace web.Api.Controllers
         [HttpGet("answer_list")]
         public ActionResult GetAnswerList()
         {
-            var quizList = from sl in dbc.Quiz where sl.QuizIsDeleted == false select sl;
-            var answerList = from al in dbc.Answer where al.AnswerIsDeleted == false 
+            var quizList = from sl in dbc.Quiz select sl;
+            var answerList = from al in dbc.Answer
             join ql in quizList on al.QuizID equals ql.QuizID
             select new { AnswerID = al.AnswerID, AnswerBody = al.AnswerBody, AnswerIP = al.AnswerIP,
                 QuizName = ql.QuizName, QuizBody = ql.QuizBody };

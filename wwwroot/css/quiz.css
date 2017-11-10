@@ -6,6 +6,10 @@
     text-align: center;
 }
 
+#titleBlock {
+    font-size: 3em;
+}
+
 #optionArea {
     position: relative;
     width: 84%;

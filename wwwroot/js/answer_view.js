@@ -19,16 +19,16 @@ window.onload = function () {
                     var answerArr = JSON.parse(answerList[answerID].answerBody);
                     for (var i = 0; i < answerArr.length; i++) {
                         var answerElem = $("#answerElem").clone(true);
-                        var quesStr = quesArr[i].quesName;
+                        var ques = quesArr[answerArr[i].quesNo];
                         var answerStr = "";
-                        if (parseInt(quesArr[i].answerType) >= 2) {
+                        if (parseInt(ques.answerType) >= 2) {
                             var optAnswerNo = parseInt(answerArr[i].answer);
-                            answerStr = quesArr[i].options[optAnswerNo].text;
+                            answerStr = ques.options[optAnswerNo].text;
                         }
                         else {
                             answerStr = answerArr[i].answer;
                         }
-                        answerElem.find("#ques").append(quesStr);
+                        answerElem.find("#ques").append(ques.quesName);
                         answerElem.find("#ans").append(answerStr);
                         $("#answerText").append(answerElem);
                     }
