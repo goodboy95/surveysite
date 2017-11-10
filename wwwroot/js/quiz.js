@@ -23,6 +23,7 @@ function OnNextClick(quizID, data) {
     quesRoute[quesCount] = currentQues;
     if (nextQues > 0) {
         currentQues = nextQues - 1;
+        quesCount++;
         RenderQuestion();
     }
     else {
@@ -31,7 +32,7 @@ function OnNextClick(quizID, data) {
             window.location.href = "/";
         });
     }
-    quesCount++;
+    
     return false;
 }
 
