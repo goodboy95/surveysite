@@ -150,22 +150,11 @@ function SaveQues(data) {
     CleanQuesArea();
 };
 
-window.onload = async function () {
+window.onload = function () {
     headerMenu();
     var editQuesgroupId = parseInt($("#editid").val());
     var quizIntro = null;
-    await layui.use('layedit', function(){
-        return new Promise((resolve, reject) => {
-            layedit = layui.layedit;
-            layedit.set({
-                uploadImage: {
-                  url: '/quizApi/quiz_pic'
-                }
-            });
-            layeditIndex = layedit.build('introContext');
-            resolve();
-        });
-    });
+    
     if (editQuesgroupId > 0) {
         $.get("/quizApi/quiz", { quizID: editQuesgroupId }, function(resp, stat){
             if (resp.code == 0) {
@@ -176,8 +165,28 @@ window.onload = async function () {
                     curQuesNum = i;
                     AddQuesRowToList(questionList[i]);
                 }
-                layedit.setContent(layeditIndex, quizIntro);
+                layui.use('layedit', function () {
+                    layedit = layui.layedit;
+                    layedit.set({
+                        uploadImage: {
+                            url: '/quizApi/quiz_pic'
+                        }
+                    });
+                    layeditIndex = layedit.build('introContext');
+                    layedit.setContent(layeditIndex, quizIntro);
+                });
             }
+        });
+    }
+    else {
+        layui.use('layedit', function () {
+            layedit = layui.layedit;
+            layedit.set({
+                uploadImage: {
+                    url: '/quizApi/quiz_pic'
+                }
+            });
+            layeditIndex = layedit.build('introContext');
         });
     }
 
