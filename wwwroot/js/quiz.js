@@ -43,11 +43,13 @@ function RenderQuestion() {
     var ques = quizBody[currentQues];
     var quesName = ques.quesName;
     var optionArr = ques.options;
+    console.log(currentQues);
+    console.log(currentQues === 0);
     if (currentQues === 0) {
-        $("#prev").hide();
+        $(".prev").hide();
     }
     else {
-        $("#prev").show();
+        $(".prev").show();
     }
     $(".ques-number").html(`Question ${quesCount+1}`);
     $(".ques-text").html(`${quesName}`);
